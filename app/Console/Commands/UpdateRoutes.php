@@ -46,6 +46,8 @@ class UpdateRoutes extends Command
         $res = $client->request('GET', 'https://www.fly.faa.gov/rmt/data_file/prefroutes_db.csv');
         Storage::put('/public/routes_csv.csv', $res->getBody());
 
+        DB::table('preferred_routes')->truncate();
+
         Excel::import(new RoutingImport, '/public/routes_csv.csv');
 
         Storage::delete('/public/routes_csv.csv');
