@@ -18,6 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //Version 1
-Route::prefix('/v1', function() {
-    Route::get('/', 'PreferredRouteController@allRoutes');
+Route::prefix('/v1')->group(function() {
+    Route::prefix('/preferred-routes')->group(function() {
+        Route::get('/', 'PreferredRouteController@showAllRoutes');
+        Route::get('/search', 'PreferredRouteController@searchRoutes');
+    });
 });
