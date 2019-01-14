@@ -15,9 +15,10 @@ class ChartUpdateCycles extends Migration
     {
         Schema::create('chart_update_cycles', function(Blueprint $table) {
             $table->increments('id');
-            $table->integer('day');
-            $table->integer('month');
-            $table->integer('year');
+            $table->string('day');
+            $table->string('month');
+            $table->string('year');
+            $table->integer('updated');
             $table->timestamps();
         });
     }

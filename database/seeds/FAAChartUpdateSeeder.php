@@ -24,7 +24,15 @@ class FAAChartUpdateSeeder extends Seeder
             if(strlen($month) == 1) {
                 $month = '0'.$month;
             }
-            print($month.'/'.$day.'/'.$year . "\n");
+
+            DB::table('chart_update_cycles')->insert([
+                'day' => $day,
+                'month' => $month,
+                'year' => $year,
+                'updated' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]);
         }
         while($year < 99);
     }
