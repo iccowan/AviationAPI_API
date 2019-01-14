@@ -47,13 +47,47 @@ class PreferredRouteController extends Controller
     public function searchRoutes(Request $request) {
         $origin = $request->origin;
         $dest = $request->dest;
+        $type = $request->type;
+        $alt = $request->alt;
+        $lower_alt = $request->lower_alt;
+        $upper_alt = $request->upper_alt;
+        $aircraft = $request->aircraft;
+        $d_artcc = $request->d_artcc;
+        $a_artcc = $request->a_artcc;
         $data = Routing::query();
 
-        if (isset($origin)) {
+        if(isset($origin)) {
             $data = $data->where('origin', $origin);
         }
-        if (isset($dest)) {
+        if(isset($dest)) {
             $data = $data->where('destination', $dest);
+        }
+        if(isset($type)) {
+            $data = $data->where('type', $type);
+        }
+        if(isset($alt)) {
+            $data = $data->where('altitude', $alt)->orWhere('altitude', null);
+        }
+        if(isset($lower_alt)) {
+            $data = $data->where('altitude', '>', $lower_alt)->orWhere('altitude', null);
+        }
+        if(isset($upper_alt)) {
+            $data = $data->where('altitude', '<', $upper_alt)->orWhere('altitude', null);
+        }
+        if(isset($aircraft)) {
+            $data = $data->where('aircraft', 'LIKE', '%'.$aircraft.'%')->where('aircraft', 'NOT LIKE', '%non-'.$aircraft.'%')->where('area', 'NOT LIKE', '%non '.$aircraft.'%')->orWhere('aircraft', null);
+        }
+        if(isset($d_artcc)) {
+            $data = $data->where(function($d) use ($d_artcc) {
+                $d->where('d_artcc', $d_artcc)
+                  ->orWhere('origin', $d_artcc);
+            });
+        }
+        if(isset($a_artcc)) {
+            $data = $data->where(function($d) use ($a_artcc) {
+                $d->where('a_artcc', $a_artcc)
+                  ->orWhere('destination', $a_artcc);
+            });
         }
         $data = $data->get()->toArray();
 
