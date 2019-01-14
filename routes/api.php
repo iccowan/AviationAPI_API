@@ -16,3 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//Version 1
+Route::prefix('/v1', function() {
+    Route::get('/', 'PreferredRouteController@allRoutes');
+});
