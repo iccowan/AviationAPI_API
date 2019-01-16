@@ -8,23 +8,23 @@ use Config;
 use DB;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
-use SimpleXMLElement;
+use Chumper\Chumper\Zipper;
 
-class ChartsToDatabase extends Command
+class UpdateFAACharts extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'Update:ChartsToDatabase';
+    protected $signature = 'Update:FAACharts';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Puts the charts in the database 7 days before the new cycle.';
+    protected $description = 'Updates the FAA charts 7 days before the new cycle.';
 
     /**
      * Create a new command instance.
@@ -48,11 +48,33 @@ class ChartsToDatabase extends Command
         $next = DB::table('chart_update_cycles')->where('updated', 0)->first();
         $next_cycle = Carbon::create('20'.$next->year, $next->month, $next->day);
         $time_until_next = $now->diffInDays($next_cycle);
-        if($time_until_next = 7) {
+
+        if($time_until_next <= 7) {
             $airac = $next->year.$next->month.$next->day;
+            $ddtpp_a = 'DDTPPA_'.$airac;
+            $ddtpp_b = 'DDTPPB_'.$airac;
+            $ddtpp_c = 'DDTPPC_'.$airac;
+            $ddtpp_d = 'DDTPPD_'.$airac;
+            $ddtpp_e = 'DDTPPE_'.$airac;
+            $storage = base_path('/public/storage/charts/AIRAC_'.$airac.'/');
 
             $client = new Client;
+            $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_a.'.zip', ['sink' => $storage.$ddtpp_a.'.zip']);
+            \Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$ddtpp_a.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
+            $client = new Client;
+            $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_b.'.zip', ['sink' => $storage.$ddtpp_b.'.zip']);
+            \Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$ddtpp_b.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
+            $client = new Client;
+            $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_c.'.zip', ['sink' => $storage.$ddtpp_c.'.zip']);
+            \Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$ddtpp_c.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
+            $client = new Client;
+            $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_d.'.zip', ['sink' => $storage.$ddtpp_d.'.zip']);
+            \Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$ddtpp_d.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
+            $client = new Client;
+            $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_e.'.zip', ['sink' => $storage.$ddtpp_e.'.zip']);
+            \Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$ddtpp_e.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
 
+            $client = new Client;
             $base_pdf_path = Config::get('app.charts_url').'/AIRAC_'.$airac.'/';
             $dtpp = $client->request('GET', Config::get('app.url').'/charts/AIRAC_'.$airac.'/DDTPPE_'.$airac.'/d-TPP_Metafile.xml');
             $charts_db = new SimpleXMLElement($dtpp->getBody());
@@ -96,8 +118,7 @@ class ChartsToDatabase extends Command
                     }
                 }
             }
-            $next->updated = 1;
-            $next->save();
+            $next->update(['updated' => 1]);
         }
     }
 }

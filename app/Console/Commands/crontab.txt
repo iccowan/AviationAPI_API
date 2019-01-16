@@ -1,7 +1,1 @@
-30 9 * * * cd /home/aviationapi/api.aviationapi.com && php artisan Update:ChartsA >> /dev/null 2>&1
-30 11 * * * cd /home/aviationapi/api.aviationapi.com && php artisan Update:ChartsB >> /dev/null 2>&1
-30 13 * * * cd /home/aviationapi/api.aviationapi.com && php artisan Update:ChartsC >> /dev/null 2>&1
-30 15 * * * cd /home/aviationapi/api.aviationapi.com && php artisan Update:ChartsD >> /dev/null 2>&1
-30 17 * * * cd /home/aviationapi/api.aviationapi.com && php artisan Update:ChartsE >> /dev/null 2>&1
-30 19 * * * cd /home/aviationapi/api.aviationapi.com && php artisan Update:ChartsExtract >> /dev/null 2>&1
-30 20 * * * cd /home/aviationapi/api.aviationapi.com && php artisan Update:ChartsToDatabase >> /dev/null 2>&1
+30 9 * * * cd /home/aviationapi/api.aviationapi.com && php artisan Update:FAACharts >> /dev/null 2>&1

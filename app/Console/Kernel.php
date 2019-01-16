@@ -14,9 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         '\App\Console\Commands\UpdateRoutes',
-        '\App\Console\Commands\UpdateCharts',
-        '\App\Console\Commands\ExtractCharts',
-        '\App\Console\Commands\ChartsToDatabase',
+        '\App\Console\Commands\UpdateFAACharts',
         '\App\Console\Commands\PurgeChartDatabase',
     ];
 
