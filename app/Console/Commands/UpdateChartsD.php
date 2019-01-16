@@ -48,15 +48,11 @@ class UpdateChartsD extends Command
         $time_until_next = $now->diffInDays($next_cycle);
         if($time_until_next = 7) {
             $airac = $next->year.$next->month.$next->day;
-
             $dttp = 'DDTPPD_'.$airac;
-            $storage = base_path('/public/storage/temporary_storage/');
+            $storage = base_path('/public/storage/charts/');
 
             $client = new Client;
-
-            $res_a = $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$dttp.'.zip', ['sink' => $storage.$dttp]);
-            Storage::put('/public/charts/AIRAC_'.$airac.'/'.$dttp.'.zip', $res_a->getBody());
-            Storage::delete('/public/temporary_storage/'.$storage.$dttp);
+            $res_a = $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$dttp.'.zip', ['sink' => $storage.$dttp.'.zip']);
         }
     }
 }
