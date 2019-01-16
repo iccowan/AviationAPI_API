@@ -19,8 +19,8 @@ class Kernel extends ConsoleKernel
         '\App\Console\Commands\UpdateChartsC',
         '\App\Console\Commands\UpdateChartsD',
         '\App\Console\Commands\UpdateChartsE',
-        '\App\Console\Commands\UpdateChartsExtract',
-        '\App\Console\Commands\UpdateChartsToDatabase',
+        '\App\Console\Commands\ExtractCharts',
+        '\App\Console\Commands\ChartsToDatabase',
     ];
 
     /**
