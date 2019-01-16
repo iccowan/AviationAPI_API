@@ -47,7 +47,7 @@ class PurgeChartDatabase extends Command
         $time_until_next = $now->diffInDays($next_cycle);
 
         if($time_until_next != 0) {
-            DB::table('current_charts')->truncate();
+            DB::table('charts_current')->truncate();
             $next_charts = NextChart::get();
 
             foreach($next_charts as $n) {
