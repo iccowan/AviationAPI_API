@@ -118,7 +118,7 @@ class UpdateFAACharts extends Command
                     }
                 }
             }
-            $next->update(['updated' => 1]);
+            DB::table('chart_update_cycles')->where('id', $next->id)->update(['updated' => 1]);
         }
     }
 }

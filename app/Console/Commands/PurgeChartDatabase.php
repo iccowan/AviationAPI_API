@@ -68,7 +68,7 @@ class PurgeChartDatabase extends Command
                 $c->save();
             }
 
-            $next->delete();
+            DB::table('chart_update_cycles')->where('updated', 1)->delete();
         }
     }
 }
