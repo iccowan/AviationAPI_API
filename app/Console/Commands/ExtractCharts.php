@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use DB;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
-use Chumper\Chumper\Zipper as Zipper;
+use Chumper\Chumper\Zipper;
 
 class ExtractCharts extends Command
 {
@@ -55,11 +55,11 @@ class ExtractCharts extends Command
             $dttp_d = 'DDTPPD_'.$airac;
             $dttp_e = 'DDTPPE_'.$airac;
 
-            Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$dttp_a.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
-            Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$dttp_b.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
-            Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$dttp_c.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
-            Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$dttp_d.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
-            Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$dttp_e.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac.'/'.$dttp_e));
+            \Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$dttp_a.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
+            \Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$dttp_b.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
+            \Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$dttp_c.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
+            \Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$dttp_d.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
+            \Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$dttp_e.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac.'/'.$dttp_e));
 
         }
     }
