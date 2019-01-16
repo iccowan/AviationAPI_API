@@ -7,7 +7,7 @@ use DB;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 
-class UpdateChartsA extends Command
+class UpdateCharts extends Command
 {
     /**
      * The name and signature of the console command.
