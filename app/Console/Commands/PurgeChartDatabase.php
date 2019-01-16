@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\CurrentChart;
 use App\NextChart;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Console\Command;
 
