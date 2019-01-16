@@ -56,9 +56,13 @@ class UpdateCharts extends Command
 
             $client = new Client;
             $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_a.'.zip', ['sink' => $storage.$ddtpp_a.'.zip']);
+            $client = new Client;
             $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_b.'.zip', ['sink' => $storage.$ddtpp_b.'.zip']);
+            $client = new Client;
             $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_c.'.zip', ['sink' => $storage.$ddtpp_c.'.zip']);
+            $client = new Client;
             $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_d.'.zip', ['sink' => $storage.$ddtpp_d.'.zip']);
+            $client = new Client;
             $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_e.'.zip', ['sink' => $storage.$ddtpp_e.'.zip']);
         }
     }
