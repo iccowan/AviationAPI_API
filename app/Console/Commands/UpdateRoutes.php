@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Routing;
+use DB;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use App\Imports\RoutingImport;
