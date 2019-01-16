@@ -23,4 +23,7 @@ Route::prefix('/v1')->group(function() {
         Route::get('/', 'PreferredRouteController@showAllRoutes');
         Route::get('/search', 'PreferredRouteController@searchRoutes');
     });
+    Route::prefix('/charts')->group(function() {
+        Route::get('/', 'ChartsController@returnCharts');
+    });
 });
