@@ -58,33 +58,34 @@ class UpdateCharts extends Command
             $dttp_c = 'DDTPPC_'.$airac;
             $dttp_d = 'DDTPPD_'.$airac;
             $dttp_e = 'DDTPPE_'.$airac;
+            $storage = base_path('/public/storage/temporary_storage/');
 
             $client = new Client;
 
-            $res_a = $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$dttp_a.'.zip');
+            $res_a = $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$dttp_a.'.zip', ['sink' => $storage.$dttp_a]);
             Storage::put('/public/charts/AIRAC_'.$airac.'/'.$dttp_a.'.zip', $res_a->getBody());
             \Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$dttp_a.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
-            unset($res_a);
+            Storage::delete('/public/storage/temporary_storage/'.$storage.$dttp_a);
 
-            $res_b = $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$dttp_b.'.zip');
+            $res_b = $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$dttp_b.'.zip', ['sink' => $storage.$dttp_b]);
             Storage::put('/public/charts/AIRAC_'.$airac.'/'.$dttp_b.'.zip', $res_b->getBody());
             \Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$dttp_b.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
-            unset($res_b);
+            Storage::delete('/public/storage/temporary_storage/'.$storage.$dttp_b);
 
-            $res_c = $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$dttp_c.'.zip');
+            $res_c = $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$dttp_c.'.zip', ['sink' => $storage.$dttp_c]);
             Storage::put('/public/charts/AIRAC_'.$airac.'/'.$dttp_c.'.zip', $res_c->getBody());
             \Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$dttp_c.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
-            unset($res_c);
+            Storage::delete('/public/storage/temporary_storage/'.$storage.$dttp_c);
 
-            $res_d = $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$dttp_d.'.zip');
+            $res_d = $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$dttp_d.'.zip', ['sink' => $storage.$dttp_d]);
             Storage::put('/public/charts/AIRAC_'.$airac.'/'.$dttp_d.'.zip', $res_d->getBody());
             \Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$dttp_d.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
-            unset($res_d);
+            Storage::delete('/public/storage/temporary_storage/'.$storage.$dttp_d);
 
-            $res_e = $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$dttp_e.'.zip');
+            $res_e = $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$dttp_e.'.zip', ['sink' => $storage.$dttp_e]);
             Storage::put('/public/charts/AIRAC_'.$airac.'/'.$dttp_e.'.zip', $res_e->getBody());
             \Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$dttp_e.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac.'/'.$dttp_e));
-            unset($res_e);
+            Storage::delete('/public/storage/temporary_storage/'.$storage.$dttp_e);
 
             $next->updated = 1;
             $next->save();
