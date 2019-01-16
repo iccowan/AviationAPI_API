@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use DB;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
-use Storage;
 
 class UpdateChartsA extends Command
 {
@@ -15,7 +14,7 @@ class UpdateChartsA extends Command
      *
      * @var string
      */
-    protected $signature = 'Update:ChartsA';
+    protected $signature = 'Update:Charts';
 
     /**
      * The console command description.
@@ -48,11 +47,19 @@ class UpdateChartsA extends Command
         $time_until_next = $now->diffInDays($next_cycle);
         if($time_until_next = 7) {
             $airac = $next->year.$next->month.$next->day;
-            $dttp = 'DDTPPA_'.$airac;
+            $ddtpp_a = 'DDTPPA_'.$airac;
+            $ddtpp_b = 'DDTPPB_'.$airac;
+            $ddtpp_c = 'DDTPPC_'.$airac;
+            $ddtpp_d = 'DDTPPD_'.$airac;
+            $ddtpp_e = 'DDTPPE_'.$airac;
             $storage = base_path('/public/storage/charts/AIRAC_'.$airac.'/');
 
             $client = new Client;
-            $res_a = $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$dttp.'.zip', ['sink' => $storage.$dttp.'.zip']);
+            $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_a.'.zip', ['sink' => $storage.$dttp.'.zip']);
+            $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_b.'.zip', ['sink' => $storage.$dttp.'.zip']);
+            $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_c.'.zip', ['sink' => $storage.$dttp.'.zip']);
+            $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_d.'.zip', ['sink' => $storage.$dttp.'.zip']);
+            $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_e.'.zip', ['sink' => $storage.$dttp.'.zip']);
         }
     }
 }
