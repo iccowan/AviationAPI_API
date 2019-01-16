@@ -49,7 +49,7 @@ class UpdateChartsD extends Command
         if($time_until_next = 7) {
             $airac = $next->year.$next->month.$next->day;
             $dttp = 'DDTPPD_'.$airac;
-            $storage = base_path('/public/storage/charts/');
+            $storage = base_path('/public/storage/charts/AIRAC_'.$airac);
 
             $client = new Client;
             $res_a = $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$dttp.'.zip', ['sink' => $storage.$dttp.'.zip']);
