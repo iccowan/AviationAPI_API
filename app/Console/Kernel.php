@@ -15,12 +15,9 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         '\App\Console\Commands\UpdateRoutes',
         '\App\Console\Commands\UpdateCharts',
-        '\App\Console\Commands\UpdateChartsB',
-        '\App\Console\Commands\UpdateChartsC',
-        '\App\Console\Commands\UpdateChartsD',
-        '\App\Console\Commands\UpdateChartsE',
         '\App\Console\Commands\ExtractCharts',
         '\App\Console\Commands\ChartsToDatabase',
+        '\App\Console\Commands\PurgeChartDatabase',
     ];
 
     /**
@@ -34,6 +31,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule->command('Routes:Update')->daily();
+        $schedule->command('Update:PurgeChartDatabase')->dailyAt('09:00')->timezone('America/New_York');
     }
 
     /**
