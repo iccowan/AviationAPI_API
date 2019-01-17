@@ -25,5 +25,6 @@ Route::prefix('/v1')->group(function() {
     });
     Route::prefix('/charts')->group(function() {
         Route::get('/', 'ChartsController@returnCharts');
+        Route::get('/changes', 'ChartsController@returnChartChanges');
     });
 });
