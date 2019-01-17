@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use App\CurrentChart;
 use App\NextChart;
+use App\CurrentChangeChart;
+use App\NextChangeChart;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Console\Command;
@@ -51,6 +53,27 @@ class PurgeChartDatabase extends Command
             $next_charts = NextChart::get();
 
             foreach($next_charts as $n) {
+                $c = new CurrentChart;
+                $c->state = $n->state;
+                $c->state_full = $n->state_full;
+                $c->city = $n->city;
+                $c->volume = $n->volume;
+                $c->airport_name = $n->airport_name;
+                $c->military = $n->military;
+                $c->faa_ident = $n->faa_ident;
+                $c->icao_ident = $n->icao_ident;
+                $c->chart_seq = $n->chart_seq;
+                $c->chart_code = $n->chart_code;
+                $c->chart_name = $n->chart_name;
+                $c->pdf_name = $n->pdf_name;
+                $c->pdf_path = $n->pdf_path;
+                $c->save();
+            }
+
+            DB::table('changed_charts_current')->truncate();
+            $next_changed_charts = NextChangeChart::get();
+
+            foreach($next_changed_charts as $n) {
                 $c = new CurrentChart;
                 $c->state = $n->state;
                 $c->state_full = $n->state_full;
