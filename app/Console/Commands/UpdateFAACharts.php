@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\NextChart;
+use App\NextChangeChart;
 use Carbon\Carbon;
 use Config;
 use DB;
@@ -77,6 +78,7 @@ class UpdateFAACharts extends Command
 */
             $client = new Client;
             $base_pdf_path = Config::get('app.charts_url').'/AIRAC_'.$airac.'/';
+            $change_pdf_path = Config::get('app.charts_url').'/AIRAC_'.$airac.'/DDTPPE_'.$airac.'/compare_pdf/';
             $dtpp = $client->request('GET', Config::get('app.charts_url').'/AIRAC_'.$airac.'/DDTPPE_'.$airac.'/d-TPP_Metafile.xml');
             $charts_db = new SimpleXMLElement($dtpp->getBody());
 
@@ -99,8 +101,9 @@ class UpdateFAACharts extends Command
                             $chart_name = $d->chart_name->__toString();
                             $chart_pdf = $d->pdf_name->__toString();
                             $chart_path = $base_pdf_path.$chart_pdf;
+                            $chart_action = $d->useraction->__toString();
 
-                            if($chart_pdf != 'DELETED_JOB.PDF') {
+                            if($chart_action != 'D') {
                                 $chart = new NextChart;
                                 $chart->state = $state_short;
                                 $chart->state_full = $state_long;
@@ -116,6 +119,27 @@ class UpdateFAACharts extends Command
                                 $chart->pdf_name = $chart_pdf;
                                 $chart->pdf_path = $chart_path;
                                 $chart->save();
+                            }
+                            if($chart_action == 'C') {
+                                $chart_change_pdf = explode('.', $chart_pdf);
+                                $chart_change_new_pdf = $chart_change_pdf[0].'_CMP.PDF';
+                                $chart_change_new_path = $change_pdf_path.$chart_change_new_pdf;
+
+                                $change = new NextChangeChart;
+                                $change->state = $state_short;
+                                $change->state_full = $state_long;
+                                $change->city = $city;
+                                $change->volume = $volume;
+                                $change->airport_name = $airport_name;
+                                $change->military = $military;
+                                $change->faa_ident = $faa_ident;
+                                $change->icao_ident = $icao_ident;
+                                $change->chart_seq = $chart_seq;
+                                $change->chart_code = $chart_code;
+                                $change->chart_name = $chart_name;
+                                $change->pdf_name = $chart_change_new_pdf;
+                                $change->pdf_path = $chart_change_new_path;
+                                $change->save();
                             }
                         }
                     }
