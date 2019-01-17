@@ -57,6 +57,7 @@ class UpdateFAACharts extends Command
             $ddtpp_d = 'DDTPPD_'.$airac;
             $ddtpp_e = 'DDTPPE_'.$airac;
             $storage = base_path('/public/storage/charts/AIRAC_'.$airac.'/');
+            Storage::makeDirectory($storage);
 
             $client = new Client;
             $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_a.'.zip', ['sink' => $storage.$ddtpp_a.'.zip']);
