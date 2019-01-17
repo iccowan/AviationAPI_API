@@ -3,13 +3,14 @@
 namespace App\Console\Commands;
 
 use App\NextChart;
+use App\NextChangeChart;
 use Carbon\Carbon;
 use Config;
 use DB;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Chumper\Chumper\Zipper;
-use Storage;
+use SimpleXMLElement;
 
 class UpdateFAACharts extends Command
 {
@@ -57,9 +58,8 @@ class UpdateFAACharts extends Command
             $ddtpp_c = 'DDTPPC_'.$airac;
             $ddtpp_d = 'DDTPPD_'.$airac;
             $ddtpp_e = 'DDTPPE_'.$airac;
-            $storage = base_path('public/storage/charts/AIRAC_'.$airac.'/');
-            Storage::makeDirectory('/public/charts/AIRAC_'.$airac.'/');
-
+            $storage = base_path('/public/storage/charts/AIRAC_'.$airac.'/');
+/*
             $client = new Client;
             $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_a.'.zip', ['sink' => $storage.$ddtpp_a.'.zip']);
             \Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$ddtpp_a.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
@@ -75,10 +75,11 @@ class UpdateFAACharts extends Command
             $client = new Client;
             $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_e.'.zip', ['sink' => $storage.$ddtpp_e.'.zip']);
             \Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$ddtpp_e.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac));
-
+*/
             $client = new Client;
             $base_pdf_path = Config::get('app.charts_url').'/AIRAC_'.$airac.'/';
-            $dtpp = $client->request('GET', Config::get('app.url').'/charts/AIRAC_'.$airac.'/DDTPPE_'.$airac.'/d-TPP_Metafile.xml');
+            $change_pdf_path = Config::get('app.charts_url').'/AIRAC_'.$airac.'/DDTPPE_'.$airac.'/compare_pdf/';
+            $dtpp = $client->request('GET', Config::get('app.charts_url').'/AIRAC_'.$airac.'/DDTPPE_'.$airac.'/d-TPP_Metafile.xml');
             $charts_db = new SimpleXMLElement($dtpp->getBody());
 
             DB::table('charts_next')->truncate();
@@ -100,22 +101,46 @@ class UpdateFAACharts extends Command
                             $chart_name = $d->chart_name->__toString();
                             $chart_pdf = $d->pdf_name->__toString();
                             $chart_path = $base_pdf_path.$chart_pdf;
+                            $chart_action = $d->useraction->__toString();
 
-                            $chart = new NextChart;
-                            $chart->state = $state_short;
-                            $chart->state_full = $state_long;
-                            $chart->city = $city;
-                            $chart->volume = $volume;
-                            $chart->airport_name = $airport_name;
-                            $chart->military = $military;
-                            $chart->faa_ident = $faa_ident;
-                            $chart->icao_ident = $icao_ident;
-                            $chart->chart_seq = $chart_seq;
-                            $chart->chart_code = $chart_code;
-                            $chart->chart_name = $chart_name;
-                            $chart->pdf_name = $chart_pdf;
-                            $chart->pdf_path = $chart_path;
-                            $chart->save();
+                            if($chart_action != 'D') {
+                                $chart = new NextChart;
+                                $chart->state = $state_short;
+                                $chart->state_full = $state_long;
+                                $chart->city = $city;
+                                $chart->volume = $volume;
+                                $chart->airport_name = $airport_name;
+                                $chart->military = $military;
+                                $chart->faa_ident = $faa_ident;
+                                $chart->icao_ident = $icao_ident;
+                                $chart->chart_seq = $chart_seq;
+                                $chart->chart_code = $chart_code;
+                                $chart->chart_name = $chart_name;
+                                $chart->pdf_name = $chart_pdf;
+                                $chart->pdf_path = $chart_path;
+                                $chart->save();
+                            }
+                            if($chart_action == 'C') {
+                                $chart_change_pdf = explode('.', $chart_pdf);
+                                $chart_change_new_pdf = $chart_change_pdf[0].'_CMP.PDF';
+                                $chart_change_new_path = $change_pdf_path.$chart_change_new_pdf;
+
+                                $change = new NextChangeChart;
+                                $change->state = $state_short;
+                                $change->state_full = $state_long;
+                                $change->city = $city;
+                                $change->volume = $volume;
+                                $change->airport_name = $airport_name;
+                                $change->military = $military;
+                                $change->faa_ident = $faa_ident;
+                                $change->icao_ident = $icao_ident;
+                                $change->chart_seq = $chart_seq;
+                                $change->chart_code = $chart_code;
+                                $change->chart_name = $chart_name;
+                                $change->pdf_name = $chart_change_new_pdf;
+                                $change->pdf_path = $chart_change_new_path;
+                                $change->save();
+                            }
                         }
                     }
                 }
