@@ -74,7 +74,7 @@ class PurgeChartDatabase extends Command
             $next_changed_charts = NextChangeChart::get();
 
             foreach($next_changed_charts as $n) {
-                $c = new CurrentChart;
+                $c = new CurrentChangeChart;
                 $c->state = $n->state;
                 $c->state_full = $n->state_full;
                 $c->city = $n->city;
