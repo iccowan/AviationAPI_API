@@ -9,6 +9,7 @@ use DB;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Chumper\Chumper\Zipper;
+use SimpleXMLElement;
 
 class UpdateFAACharts extends Command
 {
