@@ -28,8 +28,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('Routes:Update')->dailyAt('00:01')->timezone('America/New_York');
-        $schedule->command('Update:FAACharts')->dailyAt('00:35')->timezone('America/New_York');
+        $schedule->command('Routes:Update')->dailyAt('00:40')->timezone('America/New_York');
+        $schedule->command('Update:FAACharts')->dailyAt('00:45')->timezone('America/New_York');
         $schedule->command('Update:PurgeChartDatabase')->dailyAt('09:00')->timezone('America/New_York');
     }
 
