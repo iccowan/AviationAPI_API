@@ -16,7 +16,7 @@ class ChartsController extends Controller
                 $airport_id = 'K'.$airport_id;
             }
             $data = CurrentChart::where('icao_ident', $airport_id)->get()->toArray();
-/*
+
             if(isset($group)) {
                 if($group == 1) {
                     //Groups by type
@@ -57,14 +57,14 @@ class ChartsController extends Controller
                     ];
                 }
             }
-*/
+
 
             return response()->json($data);
         } else {
             return 'error';
         }
     }
-/*
+
     public function returnChartChanges(Request $request) {
         $airport_id = $request->apt;
         $chart = $request->chart_name;
@@ -81,5 +81,5 @@ class ChartsController extends Controller
             return 'error';
         }
     }
-*/
+
 }
