@@ -85,6 +85,7 @@ class UpdateFAACharts extends Command
             $charts_db = new SimpleXMLElement($dtpp->getBody());
 
             DB::table('charts_next')->truncate();
+            DB:table('changed_charts_next')->truncate();
 
             foreach($charts_db[0]->state_code as $a) {
                 $state_short = $a->attributes()->ID;
