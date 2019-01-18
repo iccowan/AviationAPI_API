@@ -16,10 +16,9 @@ class PreferredRouteController extends Controller
     *   produces = {"application/json"}
     *   tags = {"preferred-routes"}
     *   examples = {
-    *       "application/json":{
-    *             {"id":1,"origin":"ABE","route":"ABE FJC ARD CYN ACY","destination":"ACY","hours1":null,"hours2":null,"hours3":null,"type":"TEC","area":null,"altitude":"5000","aircraft":null,"flow":null,"seq":1,"d_artcc":"ZNY","a_artcc":"ZDC","created_at":"2019-01-14 04:56:02","updated_at":"2019-01-14 04:56:02"},
-    *             {"id":2,"origin":"ABE","route":"ABE FJC LAAYK ALB","destination":"ALB","hours1":null,"hours2":null,"hours3":null,"type":"TEC","area":null,"altitude":"7000","aircraft":null,"flow":null,"seq":1,"d_artcc":"ZNY","a_artcc":"ZBW","created_at":"2019-01-14 04:56:02","updated_at":"2019-01-14 04:56:02"}
-    *        }
+    *       "application/json":[
+    *             {"id":1,"origin":"ABE","route":"ABE FJC ARD CYN ACY","destination":"ACY","hours1":null,"hours2":null,"hours3":null,"type":"TEC","area":null,"altitude":"5000","aircraft":null,"flow":null,"seq":1,"d_artcc":"ZNY","a_artcc":"ZDC","created_at":"2019-01-14 04:56:02","updated_at":"2019-01-14 04:56:02"}
+    *        ]
     *   }
     *
     **/
@@ -37,10 +36,9 @@ class PreferredRouteController extends Controller
     *   produces = {"application/json"}
     *   tags = {"preferred-routes"}
     *   examples = {
-    *       "application/json":{
-    *             {"id":1,"origin":"ABE","route":"ABE FJC ARD CYN ACY","destination":"ACY","hours1":null,"hours2":null,"hours3":null,"type":"TEC","area":null,"altitude":"5000","aircraft":null,"flow":null,"seq":1,"d_artcc":"ZNY","a_artcc":"ZDC","created_at":"2019-01-14 04:56:02","updated_at":"2019-01-14 04:56:02"},
-    *             {"id":2,"origin":"ABE","route":"ABE FJC LAAYK ALB","destination":"ALB","hours1":null,"hours2":null,"hours3":null,"type":"TEC","area":null,"altitude":"7000","aircraft":null,"flow":null,"seq":1,"d_artcc":"ZNY","a_artcc":"ZBW","created_at":"2019-01-14 04:56:02","updated_at":"2019-01-14 04:56:02"}
-    *        }
+    *       "application/json":[
+    *             {"id":1,"origin":"ABE","route":"ABE FJC ARD CYN ACY","destination":"ACY","hours1":null,"hours2":null,"hours3":null,"type":"TEC","area":null,"altitude":"5000","aircraft":null,"flow":null,"seq":1,"d_artcc":"ZNY","a_artcc":"ZDC","created_at":"2019-01-14 04:56:02","updated_at":"2019-01-14 04:56:02"}
+    *        ]
     *   }
     *
     **/

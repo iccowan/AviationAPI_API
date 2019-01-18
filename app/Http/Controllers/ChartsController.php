@@ -8,6 +8,22 @@ use Illuminate\Http\Request;
 
 class ChartsController extends Controller
 {
+
+    /**
+    *   API response for showing charts for a specific airport with optional grouping
+    *
+    *   path = /v1/charts
+    *   summary = "Gets all of the charts for a specified airport"
+    *   description = "Gets all of the charts for a specified airport"
+    *   produces = {"application/json"}
+    *   tags = {"charts"}
+    *   examples = {
+    *       "application/json":[
+    *             {"id":12899,"state":"NC","state_full":"North Carolina","city":"ASHEVILLE","volume":"SE-2","airport_name":"ASHEVILLE RGNL","military":"N","faa_ident":"AVL","icao_ident":"KAVL","chart_seq":"70000","chart_code":"APD","chart_name":"AIRPORT DIAGRAM","pdf_name":"05061AD.PDF","pdf_path":"https://charts.aviationapi.com/AIRAC_190103/05061AD.PDF","created_at":"2019-01-18 15:52:28","updated_at":"2019-01-18 15:52:28"}
+    *       ]
+    *   }
+    *
+    **/
     public function returnCharts(Request $request) {
         $airport_id = strtoupper($request->apt);
         $group = $request->group;
@@ -63,6 +79,8 @@ class ChartsController extends Controller
                         "STAR" => $star,
                         "CAPP" => $capp
                     ];
+                } else {
+                    return response()->json(['status' => 'error', 'status_code' => '500', 'message' => 'That is not a valid search code.'], 500);
                 }
             } else {
                 $data = $all_charts0->get()->toArray();
@@ -74,9 +92,25 @@ class ChartsController extends Controller
                 return response()->json($data);
             }
         } else {
-            return response()->json(['status' => 'error', 'message' => 'Please specify an airport.'], 500);
+            return response()->json(['status' => 'error', 'status_code' => '500', 'message' => 'Please specify an airport.'], 500);
         }
     }
+
+    /**
+    *   API response for showing chart changes based on either an airport search, chart name search, or both
+    *
+    *   path = /v1/charts
+    *   summary = "Gets all of the chart changes by a specified airport name, chart name, or both"
+    *   description = "Gets all of the chart changes by a specified airport name, chart name, or both"
+    *   produces = {"application/json"}
+    *   tags = {"charts","chart-changes"}
+    *   examples = {
+    *       "application/json":[
+    *             {"id":1120,"state":"NC","state_full":"North Carolina","city":"ASHEVILLE","volume":"SE-2","airport_name":"ASHEVILLE RGNL","military":"N","faa_ident":"AVL","icao_ident":"KAVL","chart_seq":"50750","chart_code":"IAP","chart_name":"ILS OR LOC RWY 35","pdf_name":"05061IL35_CMP.PDF","pdf_path":"https://charts.aviationapi.com/AIRAC_190103/DDTPPE_190103/compare_pdf/05061IL35_CMP.PDF","created_at":"2019-01-18 15:57:12","updated_at":"2019-01-18 15:57:12"}
+    *       ]
+    *   }
+    *
+    **/
 
     public function returnChartChanges(Request $request) {
         $airport_id = strtoupper($request->apt);
