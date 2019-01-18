@@ -48,7 +48,7 @@ class PurgeChartDatabase extends Command
         $next_cycle = Carbon::create('20'.$next->year, $next->month, $next->day);
         $time_until_next = $now->diffInDays($next_cycle);
 
-        if($time_until_next == 0) {
+        if($time_until_next != 0) {
             DB::table('charts_current')->truncate();
             $next_charts = NextChart::get();
 

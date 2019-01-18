@@ -53,12 +53,13 @@ class UpdateFAACharts extends Command
         $time_until_next = $now->diffInDays($next_cycle);
 
         if($time_until_next <= 14) {
-            $airac = $next->year.$next->month.$next->day;
+            $airac = 190103;
             $ddtpp_a = 'DDTPPA_'.$airac;
             $ddtpp_b = 'DDTPPB_'.$airac;
             $ddtpp_c = 'DDTPPC_'.$airac;
             $ddtpp_d = 'DDTPPD_'.$airac;
             $ddtpp_e = 'DDTPPE_'.$airac;
+/*
             $storage = base_path('/public/storage/charts/AIRAC_'.$airac.'/');
             Storage::makeDirectory('/public/charts/AIRAC_'.$airac);
 
@@ -77,7 +78,7 @@ class UpdateFAACharts extends Command
             $client = new Client;
             $client->request('GET', 'https://aeronav.faa.gov/upload_313-d/terminal/'.$ddtpp_e.'.zip', ['sink' => $storage.$ddtpp_e.'.zip']);
             \Zipper::make(base_path('storage/app/public/charts/AIRAC_'.$airac.'/'.$ddtpp_e.'.zip'))->extractTo(base_path('public/charts/AIRAC_'.$airac.'/DDTPPE_'.$airac));
-
+*/
             $client = new Client;
             $base_pdf_path = Config::get('app.charts_url').'/AIRAC_'.$airac.'/';
             $change_pdf_path = Config::get('app.charts_url').'/AIRAC_'.$airac.'/DDTPPE_'.$airac.'/compare_pdf/';
