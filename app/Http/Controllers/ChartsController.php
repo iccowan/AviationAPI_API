@@ -80,7 +80,7 @@ class ChartsController extends Controller
                         "CAPP" => $capp
                     ];
                 } else {
-                    return response()->json(['status' => 'error', 'status_code' => '500', 'message' => 'That is not a valid search code.'], 500);
+                    return response()->json(['status' => 'error', 'status_code' => '404', 'message' => 'That is not a valid grouping code.'], 404);
                 }
             } else {
                 $data = $all_charts0->get()->toArray();
@@ -92,7 +92,7 @@ class ChartsController extends Controller
                 return response()->json($data);
             }
         } else {
-            return response()->json(['status' => 'error', 'status_code' => '500', 'message' => 'Please specify an airport.'], 500);
+            return response()->json(['status' => 'error', 'status_code' => '404', 'message' => 'Please specify an airport.'], 404);
         }
     }
 
@@ -131,7 +131,7 @@ class ChartsController extends Controller
             }
             return response()->json($data);
         } else {
-            return response()->json(['status' => 'error', 'message' => 'Please specify either an airport or a procedure name.'], 500);
+            return response()->json(['status' => 'error', 'status_code' => '404', 'message' => 'Please specify either an airport or a procedure name.'], 404);
         }
     }
 
