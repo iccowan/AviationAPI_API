@@ -27,4 +27,8 @@ Route::prefix('/v1')->group(function() {
         Route::get('/', 'ChartsController@returnCharts');
         Route::get('/changes', 'ChartsController@returnChartChanges');
     });
+    Route::prefix('/airports')->group(function() {
+        Route::get('/', 'AirportDataController@getAllAirports');
+        Route::get('/search', 'AirportDataController@searchByAirportName');
+    });
 });

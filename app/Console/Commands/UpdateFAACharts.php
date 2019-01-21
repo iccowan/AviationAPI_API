@@ -53,12 +53,13 @@ class UpdateFAACharts extends Command
         $time_until_next = $now->diffInDays($next_cycle);
 
         if($time_until_next <= 14) {
-            $airac = $next->year.$next->month.$next->day;
+            $airac = 190103;
             $ddtpp_a = 'DDTPPA_'.$airac;
             $ddtpp_b = 'DDTPPB_'.$airac;
             $ddtpp_c = 'DDTPPC_'.$airac;
             $ddtpp_d = 'DDTPPD_'.$airac;
             $ddtpp_e = 'DDTPPE_'.$airac;
+
             $storage = base_path('/public/storage/charts/AIRAC_'.$airac.'/');
             Storage::makeDirectory('/public/charts/AIRAC_'.$airac);
 
