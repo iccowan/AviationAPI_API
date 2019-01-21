@@ -87,7 +87,12 @@ class PreferredRouteController extends Controller
                   ->orWhere('destination', $a_artcc);
             });
         }
+
         $data = $data->get()->toArray();
+
+        if(count($data) < 1) {
+            return response()->json(null);
+        }
 
         return response()->json($data);
     }

@@ -7,11 +7,46 @@ use Illuminate\Http\Request;
 
 class AirportDataController extends Controller
 {
+
+    /**
+    *   API response for returning all of the airport information in the database
+    *
+    *   path = /v1/airports
+    *   summary = "Gets all of the airports in the database"
+    *   description = "Gets all of the airports in the database"
+    *   produces = {"application/json"}
+    *   tags = {"airports", "airports information"}
+    *   examples = {
+    *       "application/json":[
+    *             {"id":10159,"site_number":"16517.5*A","type":"AIRPORT","facility_name":"ASHEVILLE RGNL","faa_ident":"AVL","icao_ident":"KAVL","region":"ASO","district_office":"MEM","state":"NC","state_full":"NORTH CAROLINA","county":"BUNCOMBE","city":"ASHEVILLE","ownership":"PU","use":"PU","manager":"LEW S. BLEIWEIS, A.A.E.","manager_phone":"  (828) 684-2226","latitude":"35-26-04.0000N","latitude_sec":"127564.0000N","longitude":"082-32
+    *             33.8240W","longitude_sec":"297153.8240W","elevation":"2162","magnetic_variation":"07W","tpa":"","vfr_sectional":"ATLANTA","boundary_artcc":"ZTL","boundary_artcc_name":"ATLANTA","responsible_artcc":"","responsible_artcc_name":"","fss_phone_number":"","fss_phone_numer_tollfree":"1-800-WX-BRIEF","notam_facility_ident":"AVL","status":"O","certification_typedate":"I B S 05\/1973","customs_airport_of_entry":"N","military_joint_use":"N","military_landing":"Y","lighting_schedule":"SEE
+    *             RMK","beacon_schedule":"SS-SR","control_tower":"Y","unicom":"122.950","ctaf":"121.100","effective_date":"01\/03\/2019","created_at":"2019-01-21 05:22:07","updated_at":"2019-01-21 05:22:07"}
+    *       ]
+    *   }
+    *
+    **/
     public function getAllAirports() {
         $data = AirportData::get()->toArray();
         return response()->json($data);
     }
 
+    /**
+    *   API response for searching the airport databse by airport or bordering/responsible ARTCC
+    *
+    *   path = /v1/airports/search
+    *   summary = "Searches for airports in the database"
+    *   description = "Searches for airports in the database"
+    *   produces = {"application/json"}
+    *   tags = {"airports", "airports information", "airports search"}
+    *   examples = {
+    *       "application/json":[
+    *             {"id":10159,"site_number":"16517.5*A","type":"AIRPORT","facility_name":"ASHEVILLE RGNL","faa_ident":"AVL","icao_ident":"KAVL","region":"ASO","district_office":"MEM","state":"NC","state_full":"NORTH CAROLINA","county":"BUNCOMBE","city":"ASHEVILLE","ownership":"PU","use":"PU","manager":"LEW S. BLEIWEIS, A.A.E.","manager_phone":"  (828) 684-2226","latitude":"35-26-04.0000N","latitude_sec":"127564.0000N","longitude":"082-32
+    *             33.8240W","longitude_sec":"297153.8240W","elevation":"2162","magnetic_variation":"07W","tpa":"","vfr_sectional":"ATLANTA","boundary_artcc":"ZTL","boundary_artcc_name":"ATLANTA","responsible_artcc":"","responsible_artcc_name":"","fss_phone_number":"","fss_phone_numer_tollfree":"1-800-WX-BRIEF","notam_facility_ident":"AVL","status":"O","certification_typedate":"I B S 05\/1973","customs_airport_of_entry":"N","military_joint_use":"N","military_landing":"Y","lighting_schedule":"SEE
+    *             RMK","beacon_schedule":"SS-SR","control_tower":"Y","unicom":"122.950","ctaf":"121.100","effective_date":"01\/03\/2019","created_at":"2019-01-21 05:22:07","updated_at":"2019-01-21 05:22:07"}
+    *       ]
+    *   }
+    *
+    **/
     public function searchByAirportName(Request $request) {
         $apt= $request->apt;
         $b_artcc = $request->boundary;
