@@ -7,6 +7,7 @@ use DB;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use App\Imports\RoutingImport;
+use App\Imports\AirportDataImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Storage;
 
