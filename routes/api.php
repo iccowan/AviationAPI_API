@@ -26,9 +26,14 @@ Route::prefix('/v1')->group(function() {
     Route::prefix('/charts')->group(function() {
         Route::get('/', 'ChartsController@returnCharts');
         Route::get('/changes', 'ChartsController@returnChartChanges');
+        Route::get('/afd', 'ChartsController@returnAFD');
     });
     Route::prefix('/airports')->group(function() {
         Route::get('/', 'AirportDataController@getAllAirports');
         Route::get('/search', 'AirportDataController@searchByAirportName');
+    });
+    Route::prefix('/weather')->group(function() {
+        Route::get('/metar', 'WeatherController@searchMetar');
+        Route::get('/taf', 'WeatherController@searchTaf');
     });
 });

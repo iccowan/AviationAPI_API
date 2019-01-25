@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CurrentAFD;
 use App\CurrentChart;
 use App\CurrentChangeChart;
 use Illuminate\Http\Request;
@@ -135,4 +136,21 @@ class ChartsController extends Controller
         }
     }
 
+    public function returnAFD(Request $request) {
+        $airport_id = strtoupper($request->apt);
+        if($airport_id != null) {
+            if(strlen($airport_id) == 3) {
+                $airport_id = 'K'.$airport_id;
+            }
+            $data = CurrentAFD::where('icao_ident', $airport_id)->get()->toArray();
+
+            if(count($data) < 1) {
+                return response()->json(null);
+            } else {
+                return response()->json($data);
+            }
+        } else {
+            return response()->json(['status' => 'error', 'status_code' => '404', 'message' => 'Please specify an airport.'], 404);
+        }
+    }
 }

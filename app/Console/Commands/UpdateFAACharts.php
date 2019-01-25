@@ -52,8 +52,8 @@ class UpdateFAACharts extends Command
         $next_cycle = Carbon::create('20'.$next->year, $next->month, $next->day);
         $time_until_next = $now->diffInDays($next_cycle);
 
-        if($time_until_next <= 14) {
-            $airac = 190103;
+        if($time_until_next <= 7) {
+            $airac = $next->year.$next->month.$next->day;
             $ddtpp_a = 'DDTPPA_'.$airac;
             $ddtpp_b = 'DDTPPB_'.$airac;
             $ddtpp_c = 'DDTPPC_'.$airac;
