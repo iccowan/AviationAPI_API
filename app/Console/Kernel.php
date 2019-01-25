@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         '\App\Console\Commands\UpdateAirportData',
         '\App\Console\Commands\UpdateFAACharts',
         '\App\Console\Commands\PurgeChartDatabase',
+        '\App\Console\Commands\UpdateAFD',
     ];
 
     /**
@@ -30,6 +31,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('Routes:Update')->dailyAt('00:01')->timezone('America/New_York');
         $schedule->command('AirportData:Update')->dailyAt('00:10')->timezone('America/New_York');
         $schedule->command('Update:FAACharts')->dailyAt('01:00')->timezone('America/New_York');
+        $schedule->command('Update:AFD')->dailyAt('00:30')->timezone('America/New_York');
         $schedule->command('Update:PurgeChartDatabase')->dailyAt('09:00')->timezone('America/New_York');
     }
 
