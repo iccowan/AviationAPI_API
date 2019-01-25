@@ -11,6 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(FAAChartUpdateSeeder::class);
+        $this->call(FAAAFDUpdateSeeder::class);
     }
 }
