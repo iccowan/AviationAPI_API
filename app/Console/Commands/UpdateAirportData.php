@@ -43,7 +43,7 @@ class UpdateAirportData extends Command
     public function handle()
     {
         $client = new Client;
-        $res = $client->request('GET', 'https://www.faa.gov/airports/airport_safety/airportdata_5010/menu/nfdcfacilitiesexport.cfm?Region=&District=&State=&County=&City=&Use=&Certification=', ['sink' => base_path('/public/storage/NfdcFacilities.xls')]);
+        $res = $client->request('GET', 'https://www.faa.gov/airports/airport_safety/airportdata_5010/menu/nfdcfacilitiesexport.cfm?Region=&District=&State=&County=&City=&Use=&Certification=', ['sink' => base_path('public/storage/NfdcFacilities.xls')]);
 
         DB::table('airport_data')->truncate();
 
