@@ -35,4 +35,8 @@ Route::prefix('/v1')->group(function() {
         Route::get('/metar', 'WeatherController@searchMetar');
         Route::get('/taf', 'WeatherController@searchTaf');
     });
+    Route::prefix('/vatsim')->group(function() {
+        Route::get('/pilots', 'VATSIMController@searchPilots');
+        Route::get('/controllers', 'VATSIMController@searchControllers');
+    });
 });
