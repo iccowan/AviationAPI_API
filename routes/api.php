@@ -29,8 +29,7 @@ Route::prefix('/v1')->group(function() {
         Route::get('/afd', 'ChartsController@returnAFD');
     });
     Route::prefix('/airports')->group(function() {
-        Route::get('/', 'AirportDataController@getAllAirports');
-        Route::get('/search', 'AirportDataController@searchByAirportName');
+        Route::get('/', 'AirportDataController@searchByAirportName');
     });
     Route::prefix('/weather')->group(function() {
         Route::get('/metar', 'WeatherController@searchMetar');

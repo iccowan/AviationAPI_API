@@ -90,10 +90,6 @@ class PreferredRouteController extends Controller
 
         $data = $data->get()->toArray();
 
-        if(count($data) < 1) {
-            return response()->json(null);
-        }
-
         return response()->json($data);
     }
 }

@@ -81,7 +81,7 @@ class UpdateAirportData extends Command
                 $apt->ownership = $r[12];
                 $apt->use = $r[13];
                 $apt->manager = $r[18];
-                $apt->manager_phone = $r[21];
+                $apt->manager_phone = trim($r[21]);
                 $apt->latitude = $r[22];
                 $apt->latitude_sec = $r[23];
                 $apt->longitude = $r[24];

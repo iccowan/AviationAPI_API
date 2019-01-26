@@ -9,13 +9,8 @@ use SimpleXMLElement;
 class WeatherController extends Controller
 {
     public function searchMetar(Request $request) {
-        $apt1 = $request->apt1;
-        $apt2 = $request->apt2;
-        $apt3 = $request->apt3;
-        $apt4 = $request->apt4;
-        $apt5 = $request->apt5;
-        $apts = $apt1.','.$apt2.','.$apt3.','.$apt4.','.$apt5;
-        if($apts == ',,,,') {
+        $apts = $request->apt;
+        if($apts == null) {
             return response()->json(['status' => 'error', 'status_code' => '404', 'message' => 'You must search for at least one airport.'], 404);
         }
         $client = new Client;
@@ -25,7 +20,6 @@ class WeatherController extends Controller
 
         if($results > 0) {
             $data = array();
-            $j = 0;
             foreach($res_data->data->children()->METAR as $metar_data) {
                 $raw = $metar_data->raw_text->__toString();
                 $station = $metar_data->station_id->__toString();
@@ -51,7 +45,7 @@ class WeatherController extends Controller
                         if($s['sky_cover']->__toString() != 'CLR') {
                             $sky_conds_return[$i] = array('coverage' => $s['sky_cover']->__toString(), 'base_agl' => $s['cloud_base_ft_agl']->__toString());
                         } else {
-                            $sky_conds_return['coverage'] = 'CLR';
+                            $sky_conds_return[0] = array('coverage' => 'CLR', 'base_agl' => null);
                         }
                         $i++;
                     }
@@ -77,8 +71,7 @@ class WeatherController extends Controller
                     'time_of_obs' => $obs_time
                 ];
 
-                $data[$j] = $apt_data;
-                $j++;
+                $data[$station] = $apt_data;
             }
             return response()->json($data);
         } else {
@@ -87,13 +80,8 @@ class WeatherController extends Controller
     }
 
     public function searchTaf(Request $request) {
-        $apt1 = $request->apt1;
-        $apt2 = $request->apt2;
-        $apt3 = $request->apt3;
-        $apt4 = $request->apt4;
-        $apt5 = $request->apt5;
-        $apts = $apt1.','.$apt2.','.$apt3.','.$apt4.','.$apt5;
-        if($apts == ',,,,') {
+        $apts = $request->apt;
+        if($apts == null) {
             return response()->json(['status' => 'error', 'status_code' => '404', 'message' => 'You must search for at least one airport.'], 404);
         }
         $client = new Client;
@@ -125,7 +113,7 @@ class WeatherController extends Controller
                     'line_by_line' => $line_by_line
                 ];
 
-                $data[$j] = $apt_data;
+                $data[$station] = $apt_data;
                 $j++;
             }
             return response()->json($data);
