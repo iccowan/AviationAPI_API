@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\AirportCord;
+use App\VatController;
 use App\VatPilot;
 use Carbon\Carbon;
 use DB;
@@ -109,6 +110,7 @@ class GetVatConnections extends Command
 
         $lines = explode("\n", $res->getBody());
         DB::table('vatsim_pilots')->truncate();
+        DB::table('vatsim_controllers')->truncate();
         $clients_sec = 0;
         foreach($lines as $line) {
             if(substr($line, -1) == "\r") {
@@ -221,6 +223,31 @@ class GetVatConnections extends Command
                         $pilot->time_logon = Carbon::create(substr($time_logon, 0, 4), substr($time_logon, 4, 2), substr($time_logon, 6, 2), substr($time_logon, 8, 2), substr($time_logon, 10, 2), substr($time_logon, 12, 2));;
                     }
                     $pilot->save();
+                } elseif($clienttype == 'ATC') {
+                    $controller = new VatController;
+                    if($callsign != null) {
+                        $controller->callsign = $callsign;
+                    }
+                    if($cid != null) {
+                        $controller->cid = $cid;
+                    }
+                    if($realname != null) {
+                        $controller->name = $realname;
+                    }
+                    if($frequency != null) {
+                        $controller->frequency = $frequency;
+                    }
+                    if($atis_message != null) {
+                        $controller->atis = utf8_encode($atis_message);
+                    }
+                    if($time_logon != null) {
+                        $now = Carbon::now();
+                        $time_logon_time = Carbon::create(substr($time_logon, 0, 4), substr($time_logon, 4, 2), substr($time_logon, 6, 2), substr($time_logon, 8, 2), substr($time_logon, 10, 2), substr($time_logon, 12, 2));
+                        $diff_in_time = gmdate('H:i:s', $now->diffInSeconds($time_logon_time));
+                        $controller->time_logon = $time_logon_time;
+                        $controller->time_online = $diff_in_time;
+                    }
+                    $controller->save();
                 }
             }
         }
