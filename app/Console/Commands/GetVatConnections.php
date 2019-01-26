@@ -27,6 +27,7 @@ class GetVatConnections extends Command
     protected $description = 'Gets all VATSIM connections every two minutes';
 
     //Calculates distance between two coordinated in nautical miles
+    //Thanks to Jeffrey Sydenham
     protected function calculateDistance($lat1, $lon1, $lat2, $lon2) {
         $lat1 = $lat1 / 180 * pi();
     	$lon1 = $lon1 / 180 * pi();

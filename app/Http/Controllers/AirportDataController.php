@@ -53,9 +53,9 @@ class AirportDataController extends Controller
         } elseif(isset($b_artcc)) {
             $b_artcc = strtoupper($b_artcc);
             if(strlen($b_artcc) == 3) {
-                $data = AirportData::where('boundary_artcc', $b_artcc)->get()->toArray();
+                $data[$apt] = AirportData::where('boundary_artcc', $b_artcc)->get()->toArray();
             } else {
-                $data = AirportData::where('boundary_artcc_name', $b_artcc)->get()->toArray();
+                $data[$apt] = AirportData::where('boundary_artcc_name', $b_artcc)->get()->toArray();
             }
         } elseif(isset($r_artcc)) {
             $r_artcc = strtoupper($r_artcc);
@@ -68,7 +68,7 @@ class AirportDataController extends Controller
                     }
                 })->pluck('id')->toArray();
 
-                $data = AirportData::find($ids)->toArray();
+                $data[$apt] = AirportData::find($ids)->toArray();
             } else {
                 $ids = AirportData::where('responsible_artcc_name', $r_artcc)->orWhere('boundary_artcc_name', $r_artcc)->get()->filter(function($apt) use($r_artcc) {
                     if(strlen($apt->responsible_artcc_name) == 0) {
@@ -78,7 +78,7 @@ class AirportDataController extends Controller
                     }
                 })->pluck('id')->toArray();
 
-                $data = AirportData::find($ids)->toArray();
+                $data[$apt] = AirportData::find($ids)->toArray();
             }
         } else {
             return response()->json(['status' => 'error', 'status_code' => '500', 'message' => 'You must search by at least one parameter'], 500);
