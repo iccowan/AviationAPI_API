@@ -12,6 +12,8 @@ class FAAAFDUpdateSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('afd_update_cycles')->truncate();
+        
         $day1 = Carbon::create(18, 11, 8);
         do {
             $next = $day1->addDays(56);

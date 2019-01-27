@@ -12,7 +12,9 @@ class FAAChartUpdateSeeder extends Seeder
      */
     public function run()
     {
-        $day1 = Carbon::create(18, 12, 6);
+        DB::table('chart_update_cycles')->truncate();
+        
+        $day1 = Carbon::create(19, 1, 3);
         do {
             $next = $day1->addDays(28);
             $year = substr($next->year, -2);
