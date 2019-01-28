@@ -8,10 +8,62 @@ use SimpleXMLElement;
 
 class WeatherController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return array|\Illuminate\Http\JsonResponse|string
+     *
+     * @SWG\Get(
+     *     path="/weather/metar",
+     *     summary="Get the METAR for a specified airport",
+     *     description="Search for an airport's METAR",
+     *     produces={"application/json"},
+     *     tags={"weather"},
+     *     @SWG\Parameter(name="apt", in="query", description="ICAO airport identifier (KAVL). Separate multiple entries with a comma", required=true, type="string"),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="No airport found in the search",
+     *         @SWG\Schema(ref="#/definitions/error"),
+     *         examples={"application/json":{"status":"error","status_code":"403","message":"You must search for at least one airport."}}
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="No METAR found for the specified airport",
+     *         @SWG\Schema(ref="#/definitions/error"),
+     *         examples={"application/json":{"status":"error","status_code":"404","message":"No METAR found for that airport."}}
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="OK",
+     *         @SWG\Schema(
+     *             type="object",
+     *             @SWG\Property(property="station_id", description="ICAO identifier of the reporting station", type="string", example="KDVK"),
+     *             @SWG\Property(property="raw", description="Raw, uninterpreted METAR", type="string", example="KDVK 281515Z AUTO 19008KT 10SM BKN090 03/00 A2989 RMK AO2"),
+     *             @SWG\Property(property="temp", description="Temperature, in degrees celsius", type="string", example="3.0"),
+     *             @SWG\Property(property="dewpoint", description="Dewpoint, in degrees celsius", type="string", example="0.0"),
+     *             @SWG\Property(property="wind", description="Wind direction, in degrees", type="string", example="190"),
+     *             @SWG\Property(property="wind_vel", description="Wind velocity, in knots", type="string", example="8"),
+     *             @SWG\Property(property="visibility", description="Visibility, in statue miles", type="string", example="10.0"),
+     *             @SWG\Property(property="alt_hg", description="Altimeter setting (atmospheric pressure), in inches of mercury", type="string", example="29.89"),
+     *             @SWG\Property(property="alt_mb", description="Altimeter setting (atmospheric pressure), in millibars, if applicable", type="string", example="1012.19"),
+     *             @SWG\Property(property="wx", description="Weather string abbreviations, if applicable", type="string", example="null"),
+     *             @SWG\Property(property="auto_report", description="Automatic report?", type="boolean", example="true"),
+     *             @SWG\Property(property="sky_conditions", description="List of all the applicable cloud types and bases. Clear skys will be reported with no bases", type="array",
+     *                 @SWG\Items(
+     *                     @SWG\Property(property="coverage", description="Sky coverage code", type="string", example="BKN"),
+     *                     @SWG\Property(property="base_agl", description="Altitude in AGL of the cloud bases, null if skies clear", type="string", example="9000")
+     *                 ),
+     *             ),
+     *             @SWG\Property(property="category", description="Current flight category classification, VFR -> VFR, MVFR -> Marginal VFR, IFR -> IFR, LIFR -> Low IFR", type="string", example="VFR"),
+     *             @SWG\Property(property="report_type", description="Type of report, METAR -> Routine hourly report, SPECI -> Special report", type="string", example="METAR"),
+     *             @SWG\Property(property="time_of_obs", description="Observation time", type="timestamp", example="2019-01-28T15:15:00Z")
+     *         )
+     *     )
+     * )
+     */
     public function searchMetar(Request $request) {
         $apts = $request->apt;
         if($apts == null) {
-            return response()->json(['status' => 'error', 'status_code' => '404', 'message' => 'You must search for at least one airport.'], 404);
+            return response()->json(['status' => 'error', 'status_code' => '403', 'message' => 'You must search for at least one airport.'], 403);
         }
         $client = new Client;
         $res = $client->request('GET', 'https://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=2&mostRecentForEachStation=true&stationString='.$apts);

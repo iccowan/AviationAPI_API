@@ -208,7 +208,7 @@ class ChartsController extends Controller
      *     description="Search for AFD by ICAO or FAA identifier",
      *     produces={"application/json"},
      *     tags={"charts"},
-     *     @SWG\Parameter(name="apt", in="query", description="FAA or ICAO airport identifier (KAVL or AVL)", required=true, type="string"),
+     *     @SWG\Parameter(name="apt", in="query", description="FAA or ICAO airport identifier (KCLT or CLT)", required=true, type="string"),
      *     @SWG\Response(
      *         response="404",
      *         description="No airport specified",
@@ -225,8 +225,8 @@ class ChartsController extends Controller
      *             @SWG\Property(property="city", description="Name of the city the facility resides in", type="string", example="CHARLOTTE"),
      *             @SWG\Property(property="airport_name", description="Name of the facility", type="string", example="CHARLOTTE/DOUGLAS INTL"),
      *             @SWG\Property(property="icao_ident", description="Facility ICAO identifier", type="string", example="KCLT"),
-     *             @SWG\Property(property="pdf_name", description="Name of the chart comparison PDF", type="string", example="SE_269_03JAN2019.PDF"),
-     *             @SWG\Property(property="pdf_path", description="URL to the chart comparison PDF", type="string", example="https://charts.aviationapi.com/AFD/AIRAC_190103/2_single_page_PDFs/SE_269_03JAN2019.PDF"),
+     *             @SWG\Property(property="pdf_name", description="Name of the AFD PDF", type="string", example="SE_269_03JAN2019.PDF"),
+     *             @SWG\Property(property="pdf_path", description="URL to the AFD PDF", type="string", example="https://charts.aviationapi.com/AFD/AIRAC_190103/2_single_page_PDFs/SE_269_03JAN2019.PDF"),
      *             @SWG\Property(property="created_at", type="timestamp", example="2019-01-26 21:18:00"),
      *             @SWG\Property(property="updated_at", type="timestamp", example="2019-01-26 21:18:00")
      *         )
