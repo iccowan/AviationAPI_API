@@ -68,7 +68,7 @@ class VATSIMController extends Controller
         $arr = $request->arr;
         $apts = explode(',', $apt);
         $data = array();
-        if($apt != null) {
+        if($apt != null && $apt != '%') {
             foreach($apts as $a) {
                 if(strlen($a) < 4) {
                     $a = 'K'.$a;
@@ -134,7 +134,7 @@ class VATSIMController extends Controller
         $fac = strtoupper($request->fac);
         $facs = explode(',', $fac);
         $data = array();
-        if($fac != null) {
+        if($fac != null && $fac != '%') {
             foreach($facs as $a) {
                 $controllers = VatController::where('callsign', 'LIKE', $a.'%')->get()->toArray();
                 $data[$a] = $controllers;

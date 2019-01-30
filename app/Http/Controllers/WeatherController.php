@@ -62,11 +62,21 @@ class WeatherController extends Controller
      */
     public function searchMetar(Request $request) {
         $apts = $request->apt;
-        if($apts == null) {
+        if($apts == null || $apts == '%') {
             return response()->json(['status' => 'error', 'status_code' => '403', 'message' => 'You must search for at least one airport.'], 403);
         }
+        $apts_a = explode(',', $apts);
+        $apts_c = '';
+        foreach($apts_a as $a) {
+            if(strlen($a) < 4){
+                $a = 'K'.strtoupper($a).',';
+            } else {
+                $a = strtoupper($a).',';
+            }
+            $apts_c = $apts_c.$a;
+        }
         $client = new Client;
-        $res = $client->request('GET', 'https://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=2&mostRecentForEachStation=true&stationString='.$apts);
+        $res = $client->request('GET', 'https://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=2&mostRecentForEachStation=true&stationString='.$apts_c);
         $res_data = new SimpleXMLElement($res->getBody());
         $results = $res_data->data['num_results']->__toString();
 
@@ -133,11 +143,21 @@ class WeatherController extends Controller
 
     public function searchTaf(Request $request) {
         $apts = $request->apt;
-        if($apts == null) {
+        if($apts == null || $apts == '%') {
             return response()->json(['status' => 'error', 'status_code' => '404', 'message' => 'You must search for at least one airport.'], 404);
         }
+        $apts_a = explode(',', $apts);
+        $apts_c = '';
+        foreach($apts_a as $a) {
+            if(strlen($a) < 4){
+                $a = 'K'.strtoupper($a).',';
+            } else {
+                $a = strtoupper($a).',';
+            }
+            $apts_c = $apts_c.$a;
+        }
         $client = new Client;
-        $res = $client->request('GET', 'https://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=tafs&requestType=retrieve&format=xml&hoursBeforeNow=2&mostRecentForEachStation=true&stationString='.$apts);
+        $res = $client->request('GET', 'https://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=tafs&requestType=retrieve&format=xml&hoursBeforeNow=2&mostRecentForEachStation=true&stationString='.$apts_c);
         $res_data = new SimpleXMLElement($res->getBody());
         $results = $res_data->data['num_results']->__toString();
 

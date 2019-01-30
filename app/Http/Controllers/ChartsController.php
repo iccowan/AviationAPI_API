@@ -61,7 +61,7 @@ class ChartsController extends Controller
         $airports = strtoupper($request->apt);
         $airport_array = explode(',', $airports);
         $group = $request->group;
-        if($airports != null) {
+        if($airports != null && $airports != '%') {
             foreach($airport_array as $a) {
                 if(strlen($a) == 3) {
                     $a = 'K'.$a;
@@ -179,7 +179,7 @@ class ChartsController extends Controller
         $airport_id = strtoupper($request->apt);
         $chart = strtoupper($request->chart_name);
         if($airport_id != null || $chart != null) {
-            if($airport_id != null && $chart != null) {
+            if($airport_id != null && $chart != null && $airport_id != '%' && $chart != '%') {
                 if(strlen($airport_id) == 3) {
                     $airport_id = 'K'.$airport_id;
                 }
@@ -235,7 +235,7 @@ class ChartsController extends Controller
      */
     public function returnAFD(Request $request) {
         $airport_id = strtoupper($request->apt);
-        if($airport_id != null) {
+        if($airport_id != null && $airport_id != '%') {
             if(strlen($airport_id) == 3) {
                 $airport_id = 'K'.$airport_id;
             }

@@ -115,34 +115,34 @@ class PreferredRouteController extends Controller
             return response()->json(['status' => 'error', 'status_code' => '404', 'message' => 'You must search by at least one parameter.'], 404);
         }
 
-        if(isset($origin)) {
+        if(isset($origin) && $origin != '%') {
             $data = $data->where('origin', $origin);
         }
-        if(isset($dest)) {
+        if(isset($dest) && $dest != '%') {
             $data = $data->where('destination', $dest);
         }
-        if(isset($type)) {
+        if(isset($type) && $type != '%') {
             $data = $data->where('type', $type);
         }
-        if(isset($alt)) {
+        if(isset($alt) && $alt != '%') {
             $data = $data->where('altitude', $alt)->orWhere('altitude', null);
         }
-        if(isset($lower_alt)) {
+        if(isset($lower_alt) && $lower_alt != '%') {
             $data = $data->where('altitude', '>', $lower_alt)->orWhere('altitude', null);
         }
-        if(isset($upper_alt)) {
+        if(isset($upper_alt) && $upper_alt != '%') {
             $data = $data->where('altitude', '<', $upper_alt)->orWhere('altitude', null);
         }
-        if(isset($aircraft)) {
+        if(isset($aircraft) && $aircraft != '%') {
             $data = $data->where('aircraft', 'LIKE', '%'.$aircraft.'%')->where('aircraft', 'NOT LIKE', '%non-'.$aircraft.'%')->where('area', 'NOT LIKE', '%non '.$aircraft.'%')->orWhere('aircraft', null);
         }
-        if(isset($d_artcc)) {
+        if(isset($d_artcc) && $d_artcc != '%') {
             $data = $data->where(function($d) use ($d_artcc) {
                 $d->where('d_artcc', $d_artcc)
                   ->orWhere('origin', $d_artcc);
             });
         }
-        if(isset($a_artcc)) {
+        if(isset($a_artcc) && $a_artcc != '%') {
             $data = $data->where(function($d) use ($a_artcc) {
                 $d->where('a_artcc', $a_artcc)
                   ->orWhere('destination', $a_artcc);
