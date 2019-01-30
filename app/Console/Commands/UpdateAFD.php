@@ -46,20 +46,20 @@ class UpdateAFD extends Command
     public function handle()
     {
         $now = Carbon::now();
-        $next = DB::table('afd_update_cycles')->where('updated', 0)->first();
+        $next = DB::table('afd_update_cycles')->first();
         $next_cycle = Carbon::create('20'.$next->year, $next->month, $next->day);
         $time_until_next = $now->diffInDays($next_cycle);
 
-        if($time_until_next <= 7) {
+        if($time_until_next != 7) {
             $airac = $next->year.$next->month.$next->day;
             $month = strtoupper($next_cycle->format('M'));
 
-            $storage = base_path('/public/storage/charts/AFD/AIRAC_'.$airac.'/');
-            Storage::makeDirectory('/public/charts/AFD/AIRAC_'.$airac);
+            //$storage = base_path('/public/storage/charts/AFD/AIRAC_'.$airac.'/');
+            //Storage::makeDirectory('/public/charts/AFD/AIRAC_'.$airac);
 
-            $client = new Client;
-            $client->request('GET', 'https://aeronav.faa.gov/Upload_313-d/supplements/DCS_20'.$airac.'.zip', ['sink' => $storage.'DCS_20'.$airac.'.zip']);
-            \Zipper::make(base_path('storage/app/public/charts/AFD/AIRAC_'.$airac.'/'.'DCS_20'.$airac.'.zip'))->extractTo(base_path('public/charts/AFD/AIRAC_'.$airac));
+            //$client = new Client;
+            //$client->request('GET', 'https://aeronav.faa.gov/Upload_313-d/supplements/DCS_20'.$airac.'.zip', ['sink' => $storage.'DCS_20'.$airac.'.zip']);
+            //\Zipper::make(base_path('storage/app/public/charts/AFD/AIRAC_'.$airac.'/'.'DCS_20'.$airac.'.zip'))->extractTo(base_path('public/charts/AFD/AIRAC_'.$airac));
 
             $client = new Client;
             $base_pdf_path = Config::get('app.charts_url').'/AFD/AIRAC_'.$airac.'/2_single_page_PDFs/';
@@ -82,7 +82,7 @@ class UpdateAFD extends Command
                         $afd->airport_name = $b->aptname->__toString();
                         $afd->city = $b->aptcity->__toString();
                         $afd->pdf_name = $b->pdf->__toString();
-                        $afd->pdf_path = $base_pdf_path.$b->pdf->__toString();
+                        $afd->pdf_path = $base_pdf_path.strtoupper($b->pdf->__toString());
                         $afd->save();
                     }
                 }
