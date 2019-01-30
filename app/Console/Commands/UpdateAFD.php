@@ -46,7 +46,7 @@ class UpdateAFD extends Command
     public function handle()
     {
         $now = Carbon::now();
-        $next = DB::table('afd_update_cycles')->first();
+        $next = DB::table('afd_update_cycles')->where('updated', 0)->first();
         $next_cycle = Carbon::create('20'.$next->year, $next->month, $next->day);
         $time_until_next = $now->diffInDays($next_cycle);
 
@@ -54,12 +54,12 @@ class UpdateAFD extends Command
             $airac = $next->year.$next->month.$next->day;
             $month = strtoupper($next_cycle->format('M'));
 
-            //$storage = base_path('/public/storage/charts/AFD/AIRAC_'.$airac.'/');
-            //Storage::makeDirectory('/public/charts/AFD/AIRAC_'.$airac);
+            $storage = base_path('/public/storage/charts/AFD/AIRAC_'.$airac.'/');
+            Storage::makeDirectory('/public/charts/AFD/AIRAC_'.$airac);
 
-            //$client = new Client;
-            //$client->request('GET', 'https://aeronav.faa.gov/Upload_313-d/supplements/DCS_20'.$airac.'.zip', ['sink' => $storage.'DCS_20'.$airac.'.zip']);
-            //\Zipper::make(base_path('storage/app/public/charts/AFD/AIRAC_'.$airac.'/'.'DCS_20'.$airac.'.zip'))->extractTo(base_path('public/charts/AFD/AIRAC_'.$airac));
+            $client = new Client;
+            $client->request('GET', 'https://aeronav.faa.gov/Upload_313-d/supplements/DCS_20'.$airac.'.zip', ['sink' => $storage.'DCS_20'.$airac.'.zip']);
+            \Zipper::make(base_path('storage/app/public/charts/AFD/AIRAC_'.$airac.'/'.'DCS_20'.$airac.'.zip'))->extractTo(base_path('public/charts/AFD/AIRAC_'.$airac));
 
             $client = new Client;
             $base_pdf_path = Config::get('app.charts_url').'/AFD/AIRAC_'.$airac.'/2_single_page_PDFs/';
