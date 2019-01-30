@@ -154,7 +154,7 @@ class WeatherController extends Controller
      *
      * @SWG\Get(
      *     path="/weather/taf",
-     *     summary="Get the METAR for a specified airport",
+     *     summary="Get the TAF for a specified airport",
      *     description="Search for an airport's TAF",
      *     produces={"application/json"},
      *     tags={"weather"},
