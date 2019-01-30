@@ -82,7 +82,7 @@ class UpdateAFD extends Command
                         $afd->airport_name = $b->aptname->__toString();
                         $afd->city = $b->aptcity->__toString();
                         $afd->pdf_name = $b->pdf->__toString();
-                        $afd->pdf_path = $base_pdf_path.strtoupper($b->pdf->__toString());
+                        $afd->pdf_path = $base_pdf_path.strtoupper(substr($b->pdf->__toString(), 0, -3)).'pdf';
                         $afd->save();
                     }
                 }
