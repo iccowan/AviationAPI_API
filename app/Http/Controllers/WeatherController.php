@@ -198,10 +198,12 @@ class WeatherController extends Controller
         $apts_a = explode(',', $apts);
         $apts_c = '';
         foreach($apts_a as $a) {
-            if(strlen($a) < 4){
+            if(strlen($a) == 3){
                 $a = 'K'.strtoupper($a).',';
-            } else {
+            } elseif(strlen($a) == 4) {
                 $a = strtoupper($a).',';
+            } else {
+                $a = '';
             }
             $apts_c = $apts_c.$a;
         }
