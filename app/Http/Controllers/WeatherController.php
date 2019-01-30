@@ -68,17 +68,24 @@ class WeatherController extends Controller
         $apts_a = explode(',', $apts);
         $apts_c = '';
         foreach($apts_a as $a) {
-            if(strlen($a) < 4){
+            if(strlen($a) == 3){
                 $a = 'K'.strtoupper($a).',';
-            } else {
+            } elseif(strlen($a) == 4) {
                 $a = strtoupper($a).',';
+            } else {
+                $a = '';
             }
             $apts_c = $apts_c.$a;
         }
         $client = new Client;
         $res = $client->request('GET', 'https://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=2&mostRecentForEachStation=true&stationString='.$apts_c);
         $res_data = new SimpleXMLElement($res->getBody());
-        $results = $res_data->data['num_results']->__toString();
+        $results = $res_data->data['num_results'];
+        if($results != null) {
+            $results = $results->__toString();
+        } else {
+            $results = 0;
+        }
 
         if($results > 0) {
             $data = array();
@@ -141,6 +148,48 @@ class WeatherController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return array|\Illuminate\Http\JsonResponse|string
+     *
+     * @SWG\Get(
+     *     path="/weather/taf",
+     *     summary="Get the METAR for a specified airport",
+     *     description="Search for an airport's TAF",
+     *     produces={"application/json"},
+     *     tags={"weather"},
+     *     @SWG\Parameter(name="apt", in="query", description="ICAO airport identifier (KAVL). Separate multiple entries with a comma", required=true, type="string"),
+     *     @SWG\Response(
+     *         response="403",
+     *         description="No airport found in the search",
+     *         @SWG\Schema(ref="#/definitions/error"),
+     *         examples={"application/json":{"status":"error","status_code":"403","message":"You must search for at least one airport."}}
+     *     ),
+     *     @SWG\Response(
+     *         response="404",
+     *         description="No TAF found for the specified airport",
+     *         @SWG\Schema(ref="#/definitions/error"),
+     *         examples={"application/json":{"status":"error","status_code":"404","message":"No TAF found for that airport."}}
+     *     ),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="OK",
+     *         @SWG\Schema(
+     *             type="object",
+     *             @SWG\Property(property="station_id", description="ICAO identifier of the reporting station", type="string", example="KAVL"),
+     *             @SWG\Property(property="raw", description="Raw, uninterpreted TAF", type="string", example="KAVL 301133Z 3012/3112 32008KT P6SM SKC FM301500 33015G25KT P6SM FEW250"),
+     *             @SWG\Property(property="issue_time", description="Time the report was issued", type="timestamp", example="2019-01-30T11:33:00Z"),
+     *             @SWG\Property(property="valid_time", description="Range of the report's valid time", type="timestamp", example="2019-01-30T12:00:00Z - 2019-01-31T12:00:00Z"),
+     *             @SWG\Property(property="line_by_line", description="TAF split into each line of the report", type="array",
+     *                 @SWG\Items(
+     *                     @SWG\Property(property="1", description="Line 1", type="string", example="KAVL 301133Z 3012/3112 32008KT P6SM SKC"),
+     *                     @SWG\Property(property="2", description="Line 2", type="string", example="FM301500 33015G25KT P6SM FEW250")
+     *                 ),
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function searchTaf(Request $request) {
         $apts = $request->apt;
         if($apts == null || $apts == '%') {
@@ -159,7 +208,12 @@ class WeatherController extends Controller
         $client = new Client;
         $res = $client->request('GET', 'https://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=tafs&requestType=retrieve&format=xml&hoursBeforeNow=2&mostRecentForEachStation=true&stationString='.$apts_c);
         $res_data = new SimpleXMLElement($res->getBody());
-        $results = $res_data->data['num_results']->__toString();
+        $results = $res_data->data['num_results'];
+        if($results != null) {
+            $results = $results->__toString();
+        } else {
+            $results = 0;
+        }
 
         if($results > 0) {
             $data = array();
@@ -190,7 +244,7 @@ class WeatherController extends Controller
             }
             return response()->json($data);
         } else {
-            return response()->json(['status' => 'error', 'status_code' => '404', 'message' => 'No METAR found for that airport.'], 404);
+            return response()->json(['status' => 'error', 'status_code' => '404', 'message' => 'No TAF found for that airport.'], 404);
         }
     }
 }
