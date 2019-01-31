@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class CurrentAFD extends Model
 {
-    protected $table = 'afd_next';
+    protected $table = 'afd_current';
 }
