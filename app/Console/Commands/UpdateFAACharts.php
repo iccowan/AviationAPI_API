@@ -99,6 +99,9 @@ class UpdateFAACharts extends Command
                         $military = $c->attributes()->military;
                         $faa_ident = $c->attributes()->apt_ident;
                         $icao_ident = $c->attributes()->icao_ident;
+                        if($icao_ident == null) {
+                            $icao_ident = 'K'.$faa_ident;
+                        }
                         foreach($c->record as $d) {
                             $chart_seq = $d->chartseq->__toString();
                             $chart_code = $d->chart_code->__toString();

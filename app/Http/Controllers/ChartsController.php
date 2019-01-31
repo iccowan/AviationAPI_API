@@ -178,8 +178,8 @@ class ChartsController extends Controller
     public function returnChartChanges(Request $request) {
         $airport_id = strtoupper($request->apt);
         $chart = strtoupper($request->chart_name);
-        if($airport_id != null || $chart != null) {
-            if($airport_id != null && $chart != null && $airport_id != '%' && $chart != '%') {
+        if($airport_id != null || $chart != null || $airport_id != '%' || $chart != '%') {
+            if($airport_id != null && $chart != null) {
                 if(strlen($airport_id) == 3) {
                     $airport_id = 'K'.$airport_id;
                 }
