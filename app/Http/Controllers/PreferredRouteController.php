@@ -74,6 +74,12 @@ class PreferredRouteController extends Controller
      *         examples={"application/json":{"status":"error","status_code":"404","message":"You must search by at least one parameter."}}
      *     ),
      *     @SWG\Response(
+     *         response="500",
+     *         description="ICAO identifier used",
+     *         @SWG\Schema(ref="#/definitions/error"),
+     *         examples={"status":"error","status_code":"500","message":"It appears you searched with an ICAO identifier. Please use the FAA 3 letter identifier."}}
+     *     ),
+     *     @SWG\Response(
      *         response="200",
      *         description="OK",
      *         @SWG\Schema(
@@ -116,16 +122,24 @@ class PreferredRouteController extends Controller
         }
 
         if(isset($origin) && $origin != '%') {
+            if (strlen($origin) == 4) {
+                return response()->json(['status' => 'error', 'status_code' => '500', 'message' => 'It appears you searched with an ICAO identifier. Please use the FAA 3 letter identifier.'], 500);
+            }
             $data = $data->where('origin', $origin);
         }
         if(isset($dest) && $dest != '%') {
+            if (strlen($dest) == 4) {
+                return response()->json(['status' => 'error', 'status_code' => '500', 'message' => 'It appears you searched with an ICAO identifier. Please use the FAA 3 letter identifier.'], 500);
+            }
             $data = $data->where('destination', $dest);
         }
         if(isset($type) && $type != '%') {
             $data = $data->where('type', $type);
         }
         if(isset($alt) && $alt != '%') {
-            $data = $data->where('altitude', $alt)->orWhere('altitude', null);
+            $data = $data->where(function($route) use ($alt){
+                return $route->where('altitude', $alt)
+            })->orWhere('altitude', null);
         }
         if(isset($lower_alt) && $lower_alt != '%') {
             $data = $data->where('altitude', '>', $lower_alt)->orWhere('altitude', null);
