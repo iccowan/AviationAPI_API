@@ -89,6 +89,7 @@ class WeatherController extends Controller
 
         if($results > 0) {
             $data = array();
+            //dd($res_data->data->children()->METAR);
             foreach($res_data->data->children()->METAR as $metar_data) {
                 $raw = $metar_data->raw_text->__toString();
                 $station = $metar_data->station_id->__toString();
@@ -111,7 +112,7 @@ class WeatherController extends Controller
                 if(count($sky_conds) > 0) {
                     $i = 0;
                     foreach($sky_conds as $s) {
-                        if($s['sky_cover']->__toString() != 'CLR') {
+                        if($s['sky_cover']->__toString() != 'CLR' && $s['sky_cover']->__toString() != 'CAVOK' && $s['sky_cover']->__toString() != 'CAVU') {
                             $sky_conds_return[$i] = array('coverage' => $s['sky_cover']->__toString(), 'base_agl' => $s['cloud_base_ft_agl']->__toString());
                         } else {
                             $sky_conds_return[0] = array('coverage' => 'CLR', 'base_agl' => null);

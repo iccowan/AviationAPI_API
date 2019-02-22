@@ -64,8 +64,8 @@ class VATSIMController extends Controller
      */
     public function searchPilots(Request $request) {
         $apt = strtoupper($request->apt);
-        $dep = $request->dep;
-        $arr = $request->arr;
+        $dep_s = $request->dep;
+        $arr_s = $request->arr;
         $apts = explode(',', $apt);
         $data = array();
         if($apt != null && $apt != '%') {
@@ -73,15 +73,15 @@ class VATSIMController extends Controller
                 if(strlen($a) < 4) {
                     $a = 'K'.$a;
                 }
-                if($dep == null && $arr == null) {
+                if($dep_s == null && $arr_s == null) {
                     $dep = VatPilot::where('departure', $a)->get()->toArray();
                     $arr = VatPilot::where('arrival', $a)->get()->toArray();
                     $data[$a] = ['Departures' => $dep, 'Arrivals' => $arr];
-                } elseif($dep == 1) {
+                } elseif($dep_s == 1) {
                     $data[$a] = VatPilot::where('departure', $a)->get()->toArray();
-                } elseif($arr == 1) {
+                } elseif($arr_s == 1) {
                     $data[$a] = VatPilot::where('arrival', $a)->get()->toArray();
-                } elseif($dep == 1 && $arr == 1) {
+                } elseif($dep_s == 1 && $arr_s == 1) {
                     $dep = VatPilot::where('departure', $a)->get()->toArray();
                     $arr = VatPilot::where('arrival', $a)->get()->toArray();
                     $data[$a] = ['Departures' => $dep, 'Arrivals' => $arr];

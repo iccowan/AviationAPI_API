@@ -138,17 +138,23 @@ class PreferredRouteController extends Controller
         }
         if(isset($alt) && $alt != '%') {
             $data = $data->where(function($route) use ($alt){
-                return $route->where('altitude', $alt)
-            })->orWhere('altitude', null);
+                return $route->where('altitude', $alt)->orWhere('altitude', null);
+            });
         }
         if(isset($lower_alt) && $lower_alt != '%') {
-            $data = $data->where('altitude', '>', $lower_alt)->orWhere('altitude', null);
+            $data = $data->where(function($route) use($alt) {
+                $route->where('altitude', '>', $lower_alt)->orWhere('altitude', null);
+            });
         }
         if(isset($upper_alt) && $upper_alt != '%') {
-            $data = $data->where('altitude', '<', $upper_alt)->orWhere('altitude', null);
+            $data = $data->where(function($route) use($alt) {
+                $route->where('altitude', '<', $lower_alt)->orWhere('altitude', null);
+            });
         }
         if(isset($aircraft) && $aircraft != '%') {
-            $data = $data->where('aircraft', 'LIKE', '%'.$aircraft.'%')->where('aircraft', 'NOT LIKE', '%non-'.$aircraft.'%')->where('area', 'NOT LIKE', '%non '.$aircraft.'%')->orWhere('aircraft', null);
+            $data = $data->where(function($route) use($aircraft) {
+                $route->where('aircraft', 'LIKE', '%'.$aircraft.'%')->where('aircraft', 'NOT LIKE', '%non-'.$aircraft.'%')->where('area', 'NOT LIKE', '%non '.$aircraft.'%')->orWhere('aircraft', null);
+            });
         }
         if(isset($d_artcc) && $d_artcc != '%') {
             $data = $data->where(function($d) use ($d_artcc) {
