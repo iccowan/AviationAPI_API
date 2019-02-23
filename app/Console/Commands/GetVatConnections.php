@@ -6,6 +6,7 @@ use App\AirportCord;
 use App\VatController;
 use App\VatPilot;
 use Carbon\Carbon;
+use Facades\App\Repository\Vatsim;
 use DB;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
@@ -252,5 +253,7 @@ class GetVatConnections extends Command
                 }
             }
         }
+
+        Vatsim::cacheAll();
     }
 }

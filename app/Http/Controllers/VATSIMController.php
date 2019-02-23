@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\VatController;
-use App\VatPilot;
+use Facades\App\Repository\Vatsim;
 use Illuminate\Http\Request;
 
 class VATSIMController extends Controller
@@ -70,18 +69,16 @@ class VATSIMController extends Controller
                 if(strlen($a) < 4) {
                     $a = 'K'.$a;
                 }
-                if($dep_s == null && $arr_s == null) {
-                    $dep = VatPilot::where('departure', $a)->get()->toArray();
-                    $arr = VatPilot::where('arrival', $a)->get()->toArray();
+                if(($dep_s == null && $arr_s == null) || ($dep_s == 1 && $arr_s == 1)) {
+                    $dep = Vatsim::getByKey('PILOTS')->where('departure', $a)->toArray();
+                    $dep = Vatsim::removeId($dep);
+                    $arr = Vatsim::getByKey('PILOTS')->where('arrival', $a)->toArray();
+                    $arr = Vatsim::removeId($arr);
                     $data[$a] = ['Departures' => $dep, 'Arrivals' => $arr];
                 } elseif($dep_s == 1) {
-                    $data[$a] = VatPilot::where('departure', $a)->get()->toArray();
+                    $data[$a] = Vatsim::removeId(Vatsim::getByKey('PILOTS')->where('departure', $a)->toArray());
                 } elseif($arr_s == 1) {
-                    $data[$a] = VatPilot::where('arrival', $a)->get()->toArray();
-                } elseif($dep_s == 1 && $arr_s == 1) {
-                    $dep = VatPilot::where('departure', $a)->get()->toArray();
-                    $arr = VatPilot::where('arrival', $a)->get()->toArray();
-                    $data[$a] = ['Departures' => $dep, 'Arrivals' => $arr];
+                    $data[$a] = Vatsim::removeId(Vatsim::getByKey('PILOTS')->where('arrival', $a)->toArray());
                 }
             }
 
@@ -130,7 +127,10 @@ class VATSIMController extends Controller
         $data = array();
         if($fac != null && $fac != '%') {
             foreach($facs as $a) {
-                $controllers = VatController::where('callsign', 'LIKE', $a.'%')->get()->toArray();
+                $controllers = Vatsim::getByKey('CONTROLLERS')->filter(function ($controller) use ($a) {
+                    return false != stristr($controller->callsign, $a);
+                })->toArray();
+                $controllers = Vatsim::removeId($controllers);
                 $data[$a] = $controllers;
             }
 
