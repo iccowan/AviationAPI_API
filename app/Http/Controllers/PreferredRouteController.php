@@ -74,7 +74,7 @@ class PreferredRouteController extends Controller
      *         response="500",
      *         description="ICAO identifier used",
      *         @SWG\Schema(ref="#/definitions/error"),
-     *         examples={"status":"error","status_code":"500","message":"It appears you searched with an ICAO identifier. Please use the FAA 3 letter identifier."}}
+     *         examples={"status":"error","status_code":"500","message":"It appears you searched with an ICAO identifier. Please use the FAA 3 letter identifier."}
      *     ),
      *     @SWG\Response(
      *         response="200",
