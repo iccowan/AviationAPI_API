@@ -8,6 +8,7 @@ use App\CurrentChart;
 use App\NextChart;
 use App\CurrentChangeChart;
 use App\NextChangeChart;
+use Facades\App\Repository\Charts;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Console\Command;
@@ -94,6 +95,8 @@ class PurgeChartDatabase extends Command
             }
 
             DB::table('chart_update_cycles')->where('updated', 1)->delete();
+            Charts::cacheByKey('CURRENTCHART');
+            Charts::cacheByKey('CURRENTCHANGECHART');
         }
 
         $next = DB::table('afd_update_cycles')->where('updated', 1)->first();
@@ -117,6 +120,7 @@ class PurgeChartDatabase extends Command
             }
 
             DB::table('afd_update_cycles')->where('updated', 1)->delete();
+            Charts::cacheByKey('AFD');
         }
     }
 }

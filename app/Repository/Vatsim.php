@@ -25,9 +25,22 @@ class Vatsim
     }
 
     public function getByKey($key) {
-        $key = self::CACHE_KEY . '.' . $key;
+        $key = self::CACHE_KEY . '.' . strtoupper($key);
 
+        a:
         $response = Cache::get($key);
+
+        if($response == null) {
+            if(strtoupper($key) == 'PILOTS') {
+                $connections = VatPilot::get();
+            } elseif(strtoupper($key) == 'CONTROLLERS') {
+                $connections = VatController::get();
+            }
+            Cache::forget($key_store);
+            Cache::forever($key_store, $connections);
+
+            goto a;
+        }
 
         return $response;
     }

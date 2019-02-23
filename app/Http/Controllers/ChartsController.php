@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\CurrentAFD;
-use App\CurrentChart;
 use App\CurrentChangeChart;
+use Facades\App\Repository\Charts;
 use Illuminate\Http\Request;
 
 class ChartsController extends Controller
@@ -63,23 +63,30 @@ class ChartsController extends Controller
                 if(strlen($a) == 3) {
                     $a = 'K'.$a;
                 }
-                $all_charts0 = CurrentChart::where('icao_ident', $a);
-                $all_charts1 = CurrentChart::where('icao_ident', $a);
-                $all_charts2 = CurrentChart::where('icao_ident', $a);
-                $all_charts3 = CurrentChart::where('icao_ident', $a);
+                $all_charts0 = Charts::getByKey('CURRENTCHART')->where('icao_ident', $a);
+                $all_charts1 = Charts::getByKey('CURRENTCHART')->where('icao_ident', $a);
+                $all_charts2 = Charts::getByKey('CURRENTCHART')->where('icao_ident', $a);
+                $all_charts3 = Charts::getByKey('CURRENTCHART')->where('icao_ident', $a);
 
                 if(isset($group)) {
                     if($group == 1) {
                         //Groups by type
-                        $general = $all_charts0->where(function($c) {
-                            $c->where('chart_code', 'APD')
-                              ->orWhere('chart_code', 'MIN')
-                              ->orWhere('chart_code', 'LAH')
-                              ->orWhere('chart_code', 'HOT');
-                        })->orderBy('chart_code', 'ASC')->get()->toArray();
-                        $dp = $all_charts1->where('chart_code', 'DP')->get()->toArray();
-                        $star = $all_charts2->where('chart_code', 'STAR')->get()->toArray();
-                        $capp = $all_charts3->where('chart_code', 'IAP')->orWhere('chart_code', 'CVFP')->orderBy('chart_code', 'ASC')->get()->toArray();
+                        $general = $all_charts0->filter(function ($chart) {
+                            return false != (stristr($chart->chart_code, 'APD') || stristr($chart->chart_code, 'MIN') || stristr($chart->chart_code, 'LAH') || stristr($chart->chart_code, 'HOT'));
+                        })->sortBy(function ($chart) {
+                            return $chart->chart_code;
+                        })->toArray();
+                        $general = Charts::removeId($general);
+                        $dp = $all_charts1->where('chart_code', 'DP')->toArray();
+                        $dp = Charts::removeId($dp);
+                        $star = $all_charts2->where('chart_code', 'STAR')->toArray();
+                        $star = Charts::removeId($star);
+                        $capp = $all_charts3->filter(function ($chart) {
+                            return false != (stristr($chart->chart_code, 'IAP') || stristr($chart->chart_code, 'CVFP') || stristr($chart->chart_code, 'IAP'));
+                        })->sortBy(function ($chart) {
+                            return $chart->chart_code;
+                        })->toArray();
+                        $capp = Charts::removeId($capp);
                         $data_a = [
                             "General" => $general,
                             "DP" => $dp,
@@ -88,29 +95,44 @@ class ChartsController extends Controller
                         ];
                     } elseif($group == 2) {
                         //APD only
-                        $data_a = $all_charts0->where('chart_code', 'APD')->get()->toArray();
+                        $data_a = $all_charts0->where('chart_code', 'APD')->toArray();
+                        $data_a = Charts::removeId($data_a);
                     } elseif($group == 3) {
                         //General only
-                        $data_a = $all_charts0->where(function($airport) {
-                            $airport->where('chart_code', 'APD')
-                                    ->orWhere('chart_code', 'MIN')
-                                    ->orWhere('chart_code', 'LAH')
-                                    ->orWhere('chart_code', 'HOT');
-                        })->orderBy('chart_code', 'ASC')->get()->toArray();
+                        $data_a = $all_charts0->filter(function ($chart) {
+                            return false != (stristr($chart->chart_code, 'APD') || stristr($chart->chart_code, 'MIN') || stristr($chart->chart_code, 'LAH') || stristr($chart->chart_code, 'HOT'));
+                        })->sortBy(function ($chart) {
+                            return $chart->chart_code;
+                        })->toArray();
+                        $data_a = Charts::removeId($data_a);
                     } elseif($group == 4) {
                         //DP only
-                        $data_a = $all_charts0->where('chart_code', 'DP')->get()->toArray();
+                        $data_a = $all_charts0->where('chart_code', 'DP')->toArray();
+                        $data_a = Charts::removeId($data_a);
                     } elseif($group == 5) {
                         //STAR only
-                        $data_a = $all_charts0->where('chart_code', 'STAR')->get()->toArray();
+                        $data_a = $all_charts0->where('chart_code', 'STAR')->toArray();
+                        $data_a = Charts::removeId($data_a);
                     } elseif($group == 6) {
                         //CAPP only
-                        $data_a = $all_charts0->where('chart_code', 'IAP')->orWhere('chart_code', 'CVFP')->orderBy('chart_code', 'ASC')->get()->toArray();
+                        $data_a = $all_charts0->filter(function ($chart) {
+                            return false != (stristr($chart->chart_code, 'IAP') || stristr($chart->chart_code, 'CVFP') || stristr($chart->chart_code, 'IAP'));
+                        })->sortBy(function ($chart) {
+                            return $chart->chart_code;
+                        })->toArray();
+                        $data_a = Charts::removeId($data_a);
                     } elseif($group == 7) {
                         //Groups by DP, STAR, CAPP only
-                        $dp = $all_charts0->where('chart_code', 'DP')->get()->toArray();
-                        $star = $all_charts1->where('chart_code', 'STAR')->get()->toArray();
-                        $capp = $all_charts2->where('chart_code', 'IAP')->orWhere('chart_code', 'CVFP')->orderBy('chart_code', 'ASC')->get()->toArray();
+                        $dp = $all_charts0->where('chart_code', 'DP')->toArray();
+                        $dp = Charts::removeId($dp);
+                        $star = $all_charts1->where('chart_code', 'STAR')->toArray();
+                        $star = Charts::removeId($star);
+                        $capp = $all_charts2->filter(function ($chart) {
+                            return false != (stristr($chart->chart_code, 'IAP') || stristr($chart->chart_code, 'CVFP') || stristr($chart->chart_code, 'IAP'));
+                        })->sortBy(function ($chart) {
+                            return $chart->chart_code;
+                        })->toArray();
+                        $capp = Charts::removeId($capp);
                         $data_a = [
                             "DP" => $dp,
                             "STAR" => $star,
@@ -120,7 +142,8 @@ class ChartsController extends Controller
                         return response()->json(['status' => 'error', 'status_code' => '403', 'message' => 'That is not a valid grouping code.'], 403);
                     }
                 } else {
-                    $data_a = $all_charts0->get()->toArray();
+                    $data_a = $all_charts0->toArray();
+                    $data_a = Charts::removeId($data_a);
                 }
                 $data[$a] = $data_a;
             }
@@ -177,15 +200,20 @@ class ChartsController extends Controller
                 if(strlen($airport_id) == 3) {
                     $airport_id = 'K'.$airport_id;
                 }
-                $data = CurrentChangeChart::where('chart_name', 'LIKE', '%'.$chart.'%')->where('icao_ident', $airport_id)->get()->toArray();
+                $data = Charts::getByKey('CURRENTCHANGECHART')->filter(function ($c) use ($chart){
+                    return false != stristr($c->chart_name, $chart);
+                })->where('icao_ident', $airport_id)->toArray();
             } elseif($chart != null) {
-                $data = CurrentChangeChart::where('chart_name', 'LIKE', '%'.$chart.'%')->get()->toArray();
+                $data = Charts::getByKey('CURRENTCHANGECHART')->filter(function ($c) use ($chart){
+                    return false != stristr($c->chart_name, $chart);
+                })->toArray();
             } else {
                 if(strlen($airport_id) == 3) {
                     $airport_id = 'K'.$airport_id;
                 }
-                $data = CurrentChangeChart::where('icao_ident', $airport_id)->get()->toArray();
+                $data = Charts::getByKey('CURRENTCHANGECHART')->where('icao_ident', $airport_id)->toArray();
             }
+            $data = Charts::removeId($data);
             return response()->json($data);
         } else {
             return response()->json(['status' => 'error', 'status_code' => '404', 'message' => 'Please specify either an airport or a procedure name.'], 404);
@@ -230,8 +258,9 @@ class ChartsController extends Controller
             if(strlen($airport_id) == 3) {
                 $airport_id = 'K'.$airport_id;
             }
-            $data = CurrentAFD::where('icao_ident', $airport_id)->get()->toArray();
+            $data = Charts::getByKey('AFD')->where('icao_ident', $airport_id)->toArray();
 
+            $data = Charts::removeId($data);
             return response()->json($data);
         } else {
             return response()->json(['status' => 'error', 'status_code' => '404', 'message' => 'Please specify an airport.'], 404);
