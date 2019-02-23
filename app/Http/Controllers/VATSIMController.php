@@ -19,8 +19,8 @@ class VATSIMController extends Controller
      *     produces={"application/json"},
      *     tags={"VATSIM"},
      *     @SWG\Parameter(name="apt", in="query", description="FAA or ICAO airport identifier (KATL or ATL). Separate multiple entries with a comma", required=true, type="string"),
-     *     @SWG\Parameter(name="dep", in="query", description="Show only departures? 1 -> true, 2 -> false", required=false, type="integer"),
-     *     @SWG\Parameter(name="arr", in="query", description="Show only arrivals? 1 -> true, 2 -> false", required=false, type="integer"),
+     *     @SWG\Parameter(name="dep", in="query", description="Show only departures? 1 -> true", required=false, type="integer"),
+     *     @SWG\Parameter(name="arr", in="query", description="Show only arrivals? 1 -> true", required=false, type="integer"),
      *     @SWG\Response(
      *         response="404",
      *         description="No airport specified",
