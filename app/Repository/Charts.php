@@ -40,7 +40,6 @@ class Charts
             } elseif(strtoupper($key) == 'AFD') {
                 $charts = CurrentAFD::get();
             }
-            Cache::forget($key_store);
             Cache::forever($key_store, $charts);
 
             goto a;

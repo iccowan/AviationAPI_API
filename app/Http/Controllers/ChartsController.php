@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\CurrentAFD;
-use App\CurrentChangeChart;
 use Facades\App\Repository\Charts;
 use Illuminate\Http\Request;
 
