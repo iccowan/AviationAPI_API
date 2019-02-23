@@ -38,7 +38,6 @@ class ChartsController extends Controller
      *         description="OK",
      *         @SWG\Schema(
      *             type="object",
-     *             @SWG\Property(property="id", type="integer", example="12982"),
      *             @SWG\Property(property="state", description="Two letter abbreviation of the state the facility resides in", type="string", example="NC"),
      *             @SWG\Property(property="state_full", description="Full name of the state the facility resides in", type="string", example="NORTH CAROLINA"),
      *             @SWG\Property(property="city", description="Name of the city the facility resides in", type="string", example="ASHEVILLE"),
@@ -50,9 +49,7 @@ class ChartsController extends Controller
      *             @SWG\Property(property="chart_code", description="Code for the chart type", type="string", example="MIN"),
      *             @SWG\Property(property="chart_name", description="Name of the chart", type="string", example="TAKEOFF MINIMUMS"),
      *             @SWG\Property(property="pdf_name", description="Name of the chart PDF", type="string", example="SE2TO.PDF"),
-     *             @SWG\Property(property="pdf_path", description="URL to the chart PDF", type="string", example="https://charts.aviationapi.com/AIRAC_190103/SE2TO.PDF"),
-     *             @SWG\Property(property="created_at", type="timestamp", example="2019-01-26 21:18:00"),
-     *             @SWG\Property(property="updated_at", type="timestamp", example="2019-01-26 21:18:00")
+     *             @SWG\Property(property="pdf_path", description="URL to the chart PDF", type="string", example="https://charts.aviationapi.com/AIRAC_190103/SE2TO.PDF")
      *         )
      *     )
      * )
@@ -156,7 +153,6 @@ class ChartsController extends Controller
      *         description="OK",
      *         @SWG\Schema(
      *             type="object",
-     *             @SWG\Property(property="id", type="integer", example="541"),
      *             @SWG\Property(property="state", description="Two letter abbreviation of the state the facility resides in", type="string", example="NC"),
      *             @SWG\Property(property="state_full", description="Full name of the state the facility resides in", type="string", example="NORTH CAROLINA"),
      *             @SWG\Property(property="city", description="Name of the city the facility resides in", type="string", example="CHARLOTTE"),
@@ -168,9 +164,7 @@ class ChartsController extends Controller
      *             @SWG\Property(property="chart_code", description="Code for the chart type", type="string", example="DP"),
      *             @SWG\Property(property="chart_name", description="Name of the chart", type="string", example="WEAZL FOUR"),
      *             @SWG\Property(property="pdf_name", description="Name of the chart comparison PDF", type="string", example="00078WEAZL_CMP.PDF"),
-     *             @SWG\Property(property="pdf_path", description="URL to the chart comparison PDF", type="string", example="https://charts.aviationapi.com/AIRAC_190103/DDTPPE_190103/compare_pdf/00078WEAZL_CMP.PDF"),
-     *             @SWG\Property(property="created_at", type="timestamp", example="2019-01-26 21:18:00"),
-     *             @SWG\Property(property="updated_at", type="timestamp", example="2019-01-26 21:18:00")
+     *             @SWG\Property(property="pdf_path", description="URL to the chart comparison PDF", type="string", example="https://charts.aviationapi.com/AIRAC_190103/DDTPPE_190103/compare_pdf/00078WEAZL_CMP.PDF")
      *         )
      *     )
      * )
@@ -220,15 +214,12 @@ class ChartsController extends Controller
      *         description="OK",
      *         @SWG\Schema(
      *             type="object",
-     *             @SWG\Property(property="id", type="integer", example="541"),
      *             @SWG\Property(property="state", description="Full name of the state the facility resides in", type="string", example="NORTH CAROLINA"),
      *             @SWG\Property(property="city", description="Name of the city the facility resides in", type="string", example="CHARLOTTE"),
      *             @SWG\Property(property="airport_name", description="Name of the facility", type="string", example="CHARLOTTE/DOUGLAS INTL"),
      *             @SWG\Property(property="icao_ident", description="Facility ICAO identifier", type="string", example="KCLT"),
      *             @SWG\Property(property="pdf_name", description="Name of the AFD PDF", type="string", example="SE_269_03JAN2019.PDF"),
-     *             @SWG\Property(property="pdf_path", description="URL to the AFD PDF", type="string", example="https://charts.aviationapi.com/AFD/AIRAC_190103/2_single_page_PDFs/SE_269_03JAN2019.PDF"),
-     *             @SWG\Property(property="created_at", type="timestamp", example="2019-01-26 21:18:00"),
-     *             @SWG\Property(property="updated_at", type="timestamp", example="2019-01-26 21:18:00")
+     *             @SWG\Property(property="pdf_path", description="URL to the AFD PDF", type="string", example="https://charts.aviationapi.com/AFD/AIRAC_190103/2_single_page_PDFs/SE_269_03JAN2019.PDF")
      *         )
      *     )
      * )

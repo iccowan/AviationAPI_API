@@ -22,7 +22,6 @@ class PreferredRouteController extends Controller
      *         description="OK",
      *         @SWG\Schema(
      *             type="object",
-     *             @SWG\Property(property="id", type="integer", example="28"),
      *             @SWG\Property(property="origin", description="Originating airport of the route", type="string", example="ABQ"),
      *             @SWG\Property(property="route", description="Preferred route. May be partial or full", type="string", example="ABQ DIESL TTORO3 IAH"),
      *             @SWG\Property(property="destination", description="Destination airport of the route", type="string", example="IAH"),
@@ -36,9 +35,7 @@ class PreferredRouteController extends Controller
      *             @SWG\Property(property="flow", description="Flow requirements for using the route", type="string", example="IAH EAST FLOW"),
      *             @SWG\Property(property="seq", description="Sequence to use the route in", type="integer", example="1"),
      *             @SWG\Property(property="d_artcc", description="Originating airport ARTCC", type="string", example="ZAB"),
-     *             @SWG\Property(property="a_artcc", description="Arrival airport ARTCC", type="string", example="ZHU"),
-     *             @SWG\Property(property="created_at", type="timestamp", example="2019-01-26 21:18:00"),
-     *             @SWG\Property(property="updated_at", type="timestamp", example="2019-01-26 21:18:00")
+     *             @SWG\Property(property="a_artcc", description="Arrival airport ARTCC", type="string", example="ZHU")
      *         )
      *     )
      * )
@@ -84,7 +81,6 @@ class PreferredRouteController extends Controller
      *         description="OK",
      *         @SWG\Schema(
      *             type="object",
-     *             @SWG\Property(property="id", type="integer", example="28"),
      *             @SWG\Property(property="origin", description="Originating airport of the route", type="string", example="ABQ"),
      *             @SWG\Property(property="route", description="Preferred route. May be partial or full", type="string", example="ABQ DIESL TTORO3 IAH"),
      *             @SWG\Property(property="destination", description="Destination airport of the route", type="string", example="IAH"),
@@ -98,9 +94,7 @@ class PreferredRouteController extends Controller
      *             @SWG\Property(property="flow", description="Flow requirements for using the route", type="string", example="IAH EAST FLOW"),
      *             @SWG\Property(property="seq", description="Sequence to use the route in", type="integer", example="1"),
      *             @SWG\Property(property="d_artcc", description="Originating airport ARTCC", type="string", example="ZAB"),
-     *             @SWG\Property(property="a_artcc", description="Arrival airport ARTCC", type="string", example="ZHU"),
-     *             @SWG\Property(property="created_at", type="timestamp", example="2019-01-26 21:18:00"),
-     *             @SWG\Property(property="updated_at", type="timestamp", example="2019-01-26 21:18:00")
+     *             @SWG\Property(property="a_artcc", description="Arrival airport ARTCC", type="string", example="ZHU")
      *         )
      *     )
      * )

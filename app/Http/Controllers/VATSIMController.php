@@ -32,7 +32,6 @@ class VATSIMController extends Controller
      *         description="OK",
      *         @SWG\Schema(
      *             type="object",
-     *             @SWG\Property(property="id", type="integer", example="5"),
      *             @SWG\Property(property="callsign", description="Callsign of the aircraft", type="string", example="AAL1567"),
      *             @SWG\Property(property="cid", description="CID of the pilot", type="integer", example="921828"),
      *             @SWG\Property(property="name", description="Name of the pilot and home base (if applicable)", type="string", example="Carl Stanbridge EGLL"),
@@ -55,9 +54,7 @@ class VATSIMController extends Controller
      *             @SWG\Property(property="filed_time_enroute", description="Estimated filed time enroute", type="string", example="1:56"),
      *             @SWG\Property(property="filed_fuel_onboard", description="Estimated filed maximum cruise time for fuel onboard", type="string", example="3:30"),
      *             @SWG\Property(property="remarks", description="Flightplan remarks", type="string", example="+VFPS+/V/PBN/A1B1C1D1S1S2 DOF/190128 REG/N806SB EET/KZME0030 KZFW0059 OPR/AAL PER/C RMK/TCAS SIMBRIEF"),
-     *             @SWG\Property(property="stage_of_flight", description="Estimated current stage of flight", type="string", example="Descent"),
-     *             @SWG\Property(property="created_at", type="timestamp", example="2019-01-26 21:18:00"),
-     *             @SWG\Property(property="updated_at", type="timestamp", example="2019-01-26 21:18:00")
+     *             @SWG\Property(property="stage_of_flight", description="Estimated current stage of flight", type="string", example="Descent")
      *         )
      *     )
      * )
@@ -116,7 +113,6 @@ class VATSIMController extends Controller
      *         description="OK",
      *         @SWG\Schema(
      *             type="object",
-     *             @SWG\Property(property="id", type="integer", example="4"),
      *             @SWG\Property(property="callsign", description="Controller callsign", type="string", example="CHI_35_CTR"),
      *             @SWG\Property(property="cid", description="CID of the controller", type="integer", example="991063"),
      *             @SWG\Property(property="name", description="Name of the controller", type="string", example="Darryl Flora"),
@@ -124,8 +120,6 @@ class VATSIMController extends Controller
      *             @SWG\Property(property="atis", description="Controller ATIS", type="string", example="$ rw.liveatc.net/ZAU_134.870"),
      *             @SWG\Property(property="time_logon", description="Controller logon date and time", type="timestamp", example="2019-01-28 14:14:04"),
      *             @SWG\Property(property="time_online", description="Amount of time the controller has been logged on in hours, minutes, and seconds", type="string", example="01:04:24"),
-     *             @SWG\Property(property="created_at", type="timestamp", example="2019-01-26 21:18:00"),
-     *             @SWG\Property(property="updated_at", type="timestamp", example="2019-01-26 21:18:00")
      *         )
      *     )
      * )

@@ -29,7 +29,6 @@ class AirportDataController extends Controller
      *         description="OK",
      *         @SWG\Schema(
      *             type="object",
-     *             @SWG\Property(property="id", type="integer", example="10159"),
      *             @SWG\Property(property="site_number", description="FAA unique airport site number", type="string", example="16517.5*A"),
      *             @SWG\Property(property="type", description="Type of facility (AIRPORT/HELIPORT)", type="string", example="AIRPORT"),
      *             @SWG\Property(property="facility_name", description="Name of the facility", type="string", example="ASHEVILLE RGNL"),
@@ -69,9 +68,7 @@ class AirportDataController extends Controller
      *             @SWG\Property(property="control_tower", description="Control tower present at the facility, Y -> Yes, N -> No", type="string", example="Y"),
      *             @SWG\Property(property="unicom", description="Facility UNICOM frequency", type="string", example="122.950"),
      *             @SWG\Property(property="ctaf", description="Facility CTAF", type="string", example="121.100"),
-     *             @SWG\Property(property="effective_date", description="Effective date of this data", type="string", example="01/03/2019"),
-     *             @SWG\Property(property="created_at", type="timestamp", example="2019-01-26 21:18:00"),
-     *             @SWG\Property(property="updated_at", type="timestamp", example="2019-01-26 21:18:00")
+     *             @SWG\Property(property="effective_date", description="Effective date of this data", type="string", example="01/03/2019")
      *         )
      *     )
      * )
