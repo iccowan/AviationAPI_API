@@ -57,6 +57,7 @@ class ChartsController extends Controller
         $airport_array = explode(',', $airports);
         $group = $request->group;
         if($airports != null && $airports != '%') {
+            dd('hello world');
             foreach($airport_array as $a) {
                 if(strlen($a) == 3) {
                     $a = 'K'.$a;
