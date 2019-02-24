@@ -56,7 +56,7 @@ class GetVatConnections extends Command
             $stage = 'Taxi for Departure';
         } elseif($altitude < $filed_altitude && $gs > 40 && $nm_from_dep < $nm_from_arr) {
             $stage = 'Climb';
-        } elseif($altitude < $cruise_top && $altitude > $cruise_bottom && $gs > 40) {
+        } elseif(($altitude < $cruise_top && $altitude > $cruise_bottom && $gs > 40) || ($nm_from_dep > 50 && $nm_from_arr > 50 && $gs > 40)) {
             $stage = 'Cruise';
         } elseif($altitude < $filed_altitude && $gs > 40 && $nm_from_dep > $nm_from_arr) {
             $stage = 'Descent';
