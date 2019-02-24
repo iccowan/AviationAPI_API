@@ -57,7 +57,7 @@ class ChartsController extends Controller
         $airport_array = explode(',', $airports);
         $group = $request->group;
         if($airports != null && $airports != '%') {
-            dd('hello world');
+            //gets here ... dd('hello world');
             foreach($airport_array as $a) {
                 if(strlen($a) == 3) {
                     $a = 'K'.$a;
@@ -66,7 +66,7 @@ class ChartsController extends Controller
                 $all_charts1 = Charts::getByKey('CURRENTCHART')->where('icao_ident', $a);
                 $all_charts2 = Charts::getByKey('CURRENTCHART')->where('icao_ident', $a);
                 $all_charts3 = Charts::getByKey('CURRENTCHART')->where('icao_ident', $a);
-
+                dd('hello world');
                 if(isset($group)) {
                     if($group == 1) {
                         //Groups by type
