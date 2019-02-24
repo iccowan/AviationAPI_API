@@ -46,19 +46,15 @@ class Charts
                 goto a;
             }
         } else {
-            b:
-            $response = Cache::get($key_store)->where('icao_ident', $apt);
-
-            if($response == null) {
+            if(Cache::get($key_store) == null) {
                 if(strtoupper($key) == 'CURRENTCHART') {
                     $charts = CurrentChart::get();
                 } else {
                     $charts = null;
                 }
                 Cache::forever($key_store, $charts);
-
-                goto b;
             }
+            $response = Cache::get($key_store)->where('icao_ident', $apt);
         }
 
         return $response;
