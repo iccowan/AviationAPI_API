@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('Update:VatConnections')->cron('*/2 * * * *')->withoutOverlapping();
+        $schedule->command('Update:VatConnections')->cron('* * * * *')->withoutOverlapping();
         $schedule->command('Routes:Update')->dailyAt('00:01')->timezone('America/New_York');
         $schedule->command('AirportData:Update')->dailyAt('00:10')->timezone('America/New_York');
         $schedule->command('Update:FAACharts')->dailyAt('01:00')->timezone('America/New_York');
