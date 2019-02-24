@@ -150,7 +150,7 @@ class GetVatConnections extends Command
                         $pilot->ground_speed = $groundspeed;
                     }
                     if($heading != null) {
-                        $pilot->heading = $heading;
+                        $pilot->heading = str_pad($heading, 3, '0', STR_PAD_LEFT);
                     }
                     if($transponder != null) {
                         $pilot->transponder = $transponder;
