@@ -2,30 +2,28 @@
 
 namespace App\Console\Commands;
 
-use App\Routing;
+use App\Imports\AirportCordsImport;
 use DB;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
-use App\Imports\RoutingImport;
-use App\Imports\AirportDataImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Storage;
 
-class UpdateRoutes extends Command
+class UpdateAirportCoords extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'Routes:Update';
+    protected $signature = 'Update:AirportCoords';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Updates the routes in the database';
+    protected $description = 'Updates the airport coordinates every year for VATSIM pilot distances.';
 
     /**
      * Create a new command instance.
@@ -45,13 +43,11 @@ class UpdateRoutes extends Command
     public function handle()
     {
         $client = new Client;
-        $res = $client->request('GET', 'https://www.fly.faa.gov/rmt/data_file/prefroutes_db.csv');
-        Storage::put('/public/routes_csv.csv', $res->getBody());
+        $client->request('GET', 'http://ourairports.com/data/airports.csv', ['sink' => base_path('storage/app/public/airports.csv')]);
 
-        DB::table('preferred_routes')->truncate();
+        DB::table('airport_coords')->truncate();
+        Excel::import(new AirportCordsImport, '/public/airports.csv');
 
-        Excel::import(new RoutingImport, '/public/routes_csv.csv');
-
-        Storage::delete('/public/routes_csv.csv');
+        Storage::delete('/public/airports.csv');
     }
 }

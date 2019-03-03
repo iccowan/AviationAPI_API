@@ -3,7 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
-class FAAChartUpdateSeeder extends Seeder
+class AFDUpdateSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,11 +12,11 @@ class FAAChartUpdateSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('chart_update_cycles')->truncate();
-        
-        $day1 = Carbon::create(19, 1, 3);
+        DB::table('afd_update_cycles')->truncate();
+
+        $day1 = Carbon::create(18, 11, 8);
         do {
-            $next = $day1->addDays(28);
+            $next = $day1->addDays(56);
             $year = substr($next->year, -2);
             $day = $next->day;
             if(strlen($day) == 1) {
@@ -27,7 +27,7 @@ class FAAChartUpdateSeeder extends Seeder
                 $month = '0'.$month;
             }
 
-            DB::table('chart_update_cycles')->insert([
+            DB::table('afd_update_cycles')->insert([
                 'day' => $day,
                 'month' => $month,
                 'year' => $year,

@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "AviationAPI Development API"
+AuthUserFile "/home/aviationapi/private/.htpasswd"
+Require valid-user

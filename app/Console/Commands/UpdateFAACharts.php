@@ -52,13 +52,14 @@ class UpdateFAACharts extends Command
         $next_cycle = Carbon::create('20'.$next->year, $next->month, $next->day);
         $time_until_next = $now->diffInDays($next_cycle);
 
-        if($time_until_next <= 14) {
+        if($time_until_next <= 7) {
             $airac = $next->year.$next->month.$next->day;
             $ddtpp_a = 'DDTPPA_'.$airac;
             $ddtpp_b = 'DDTPPB_'.$airac;
             $ddtpp_c = 'DDTPPC_'.$airac;
             $ddtpp_d = 'DDTPPD_'.$airac;
             $ddtpp_e = 'DDTPPE_'.$airac;
+
             $storage = base_path('/public/storage/charts/AIRAC_'.$airac.'/');
             Storage::makeDirectory('/public/charts/AIRAC_'.$airac);
 
@@ -98,6 +99,9 @@ class UpdateFAACharts extends Command
                         $military = $c->attributes()->military;
                         $faa_ident = $c->attributes()->apt_ident;
                         $icao_ident = $c->attributes()->icao_ident;
+                        if($icao_ident == null) {
+                            $icao_ident = 'K'.$faa_ident;
+                        }
                         foreach($c->record as $d) {
                             $chart_seq = $d->chartseq->__toString();
                             $chart_code = $d->chart_code->__toString();

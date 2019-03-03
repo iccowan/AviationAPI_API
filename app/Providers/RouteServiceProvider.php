@@ -37,7 +37,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->mapApiRoutes();
 
-        $this->mapWebRoutes();
+        $this->mapWebRoute();
 
         //
     }
@@ -49,11 +49,11 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapWebRoutes()
+    protected function mapWebRoute()
     {
-        Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+        Route::get('/', function() {
+            return redirect('https://www.aviationapi.com');
+        });
     }
 
     /**

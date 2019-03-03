@@ -2,10 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\CurrentAFD;
+use App\NextAFD;
 use App\CurrentChart;
 use App\NextChart;
 use App\CurrentChangeChart;
 use App\NextChangeChart;
+use Facades\App\Repository\Charts;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Console\Command;
@@ -92,6 +95,32 @@ class PurgeChartDatabase extends Command
             }
 
             DB::table('chart_update_cycles')->where('updated', 1)->delete();
+            Charts::cacheByKey('CURRENTCHART');
+            Charts::cacheByKey('CURRENTCHANGECHART');
+        }
+
+        $next = DB::table('afd_update_cycles')->where('updated', 1)->first();
+        $now = Carbon::now();
+        $next_cycle = Carbon::create('20'.$next->year, $next->month, $next->day);
+        $time_until_next = $now->diffInDays($next_cycle);
+
+        if($time_until_next == 0) {
+            DB::table('afd_current')->truncate();
+            $next_charts = NextAFD::get();
+
+            foreach($next_charts as $n) {
+                $c = new CurrentAFD;
+                $c->state = $n->state;
+                $c->city = $n->city;
+                $c->airport_name = $n->airport_name;
+                $c->icao_ident = $n->icao_ident;
+                $c->pdf_name = $n->pdf_name;
+                $c->pdf_path = $n->pdf_path;
+                $c->save();
+            }
+
+            DB::table('afd_update_cycles')->where('updated', 1)->delete();
+            Charts::cacheByKey('AFD');
         }
     }
 }
