@@ -67,6 +67,9 @@ class ChartsController extends Controller
                  $all_charts1 = CurrentChart::where('icao_ident', $a);
                  $all_charts2 = CurrentChart::where('icao_ident', $a);
                  $all_charts3 = CurrentChart::where('icao_ident', $a);
+
+                 $data = array();
+
                  if(isset($group)) {
                      if($group == 1) {
                          //Groups by type
