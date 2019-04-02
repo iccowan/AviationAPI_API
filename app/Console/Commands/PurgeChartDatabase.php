@@ -52,7 +52,7 @@ class PurgeChartDatabase extends Command
             $next_cycle = Carbon::create('20'.$next->year, $next->month, $next->day);
             $time_until_next = $now->diffInDays($next_cycle);
         } else {
-            $time_until_next = 1
+            $time_until_next = 1;
         }
 
         if($time_until_next == 0) {
@@ -109,7 +109,7 @@ class PurgeChartDatabase extends Command
             $next_cycle = Carbon::create('20'.$next->year, $next->month, $next->day);
             $time_until_next = $now->diffInDays($next_cycle);
         } else {
-            $time_until_next = 1
+            $time_until_next = 1;
         }
 
         if($time_until_next = 0) {
