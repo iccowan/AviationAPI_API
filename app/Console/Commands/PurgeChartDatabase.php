@@ -47,7 +47,7 @@ class PurgeChartDatabase extends Command
     public function handle()
     {
         $next = DB::table('chart_update_cycles')->where('updated', 1)->first();
-        if($next) {
+        if($next != null) {
             $now = Carbon::now();
             $next_cycle = Carbon::create('20'.$next->year, $next->month, $next->day);
             $time_until_next = $now->diffInDays($next_cycle);
@@ -104,7 +104,7 @@ class PurgeChartDatabase extends Command
         }
 
         $next = DB::table('afd_update_cycles')->where('updated', 1)->first();
-        if($next) {
+        if($next != null) {
             $now = Carbon::now();
             $next_cycle = Carbon::create('20'.$next->year, $next->month, $next->day);
             $time_until_next = $now->diffInDays($next_cycle);
