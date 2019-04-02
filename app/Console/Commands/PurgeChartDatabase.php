@@ -99,8 +99,6 @@ class PurgeChartDatabase extends Command
             }
 
             DB::table('chart_update_cycles')->where('updated', 1)->delete();
-            Charts::cacheByKey('CURRENTCHART');
-            Charts::cacheByKey('CURRENTCHANGECHART');
         }
 
         $next = DB::table('afd_update_cycles')->where('updated', 1)->first();
@@ -112,7 +110,7 @@ class PurgeChartDatabase extends Command
             $time_until_next = 1;
         }
 
-        if($time_until_next != 0) {
+        if($time_until_next == 0) {
             DB::table('afd_current')->truncate();
             $next_charts = NextAFD::get();
 
@@ -128,7 +126,6 @@ class PurgeChartDatabase extends Command
             }
 
             DB::table('afd_update_cycles')->where('updated', 1)->delete();
-            Charts::cacheByKey('AFD');
         }
     }
 }
