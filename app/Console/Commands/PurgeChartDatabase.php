@@ -110,7 +110,7 @@ class PurgeChartDatabase extends Command
             $time_until_next = 1;
         }
 
-        if($time_until_next != 0) {
+        if($time_until_next == 0) {
             DB::table('afd_current')->truncate();
             $next_charts = NextAFD::get();
 
