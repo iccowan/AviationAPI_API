@@ -56,13 +56,13 @@ class UpdateAFD extends Command
 
             $storage = base_path('/public/storage/charts/AFD/AIRAC_'.$airac.'/');
             Storage::makeDirectory('/public/charts/AFD/AIRAC_'.$airac);
-/*
+
             $client = new Client;
             $client->request('GET', 'https://aeronav.faa.gov/Upload_313-d/supplements/DCS_20'.$airac.'.zip', ['sink' => $storage.'DCS_20'.$airac.'.zip']);
             \Zipper::make(base_path('storage/app/public/charts/AFD/AIRAC_'.$airac.'/'.'DCS_20'.$airac.'.zip'))->extractTo(base_path('public/charts/AFD/AIRAC_'.$airac));
-*/
+
             $client = new Client;
-            $base_pdf_path = Config::get('app.charts_url').'/AFD/AIRAC_'.$airac.'/2_single_page_PDFs/';
+            $base_pdf_path = Config::get('app.charts_url').'/AFD/AIRAC_'.$airac.'/';
             $afd = $client->request('GET', Config::get('app.charts_url').'/AFD/AIRAC_'.$airac.'/afd_'.$next->day.$month.'20'.$next->year.'.xml');
             $afd_db = new SimpleXMLElement($afd->getBody());
             DB::table('afd_next')->truncate();
