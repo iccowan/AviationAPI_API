@@ -35,7 +35,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('AirportData:Update')->dailyAt('00:10')->timezone('America/New_York');
         $schedule->command('Update:FAACharts')->dailyAt('01:00')->timezone('America/New_York');
         $schedule->command('Update:AFD')->dailyAt('00:30')->timezone('America/New_York');
-        $schedule->command('Update:PurgeChartDatabase')->dailyAt('09:00');
+        $schedule->command('Update:PurgeChartDatabase')->dailyAt('09:00')->timezone('America/New_York');
         $schedule->command('Update:AirportCoords')->yearly();
     }
 
