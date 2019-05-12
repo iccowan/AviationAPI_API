@@ -47,9 +47,13 @@ class PurgeChartDatabase extends Command
     public function handle()
     {
         $next = DB::table('chart_update_cycles')->where('updated', 1)->first();
-        $now = Carbon::now();
-        $next_cycle = Carbon::create('20'.$next->year, $next->month, $next->day);
-        $time_until_next = $now->diffInDays($next_cycle);
+        if($next != null) {
+            $now = Carbon::now();
+            $next_cycle = Carbon::create('20'.$next->year, $next->month, $next->day);
+            $time_until_next = $now->diffInDays($next_cycle);
+        } else {
+            $time_until_next = 1;
+        }
 
         if($time_until_next == 0) {
             DB::table('charts_current')->truncate();
@@ -95,14 +99,16 @@ class PurgeChartDatabase extends Command
             }
 
             DB::table('chart_update_cycles')->where('updated', 1)->delete();
-            Charts::cacheByKey('CURRENTCHART');
-            Charts::cacheByKey('CURRENTCHANGECHART');
         }
 
         $next = DB::table('afd_update_cycles')->where('updated', 1)->first();
-        $now = Carbon::now();
-        $next_cycle = Carbon::create('20'.$next->year, $next->month, $next->day);
-        $time_until_next = $now->diffInDays($next_cycle);
+        if($next != null) {
+            $now = Carbon::now();
+            $next_cycle = Carbon::create('20'.$next->year, $next->month, $next->day);
+            $time_until_next = $now->diffInDays($next_cycle);
+        } else {
+            $time_until_next = 1;
+        }
 
         if($time_until_next == 0) {
             DB::table('afd_current')->truncate();
@@ -120,7 +126,6 @@ class PurgeChartDatabase extends Command
             }
 
             DB::table('afd_update_cycles')->where('updated', 1)->delete();
-            Charts::cacheByKey('AFD');
         }
     }
 }

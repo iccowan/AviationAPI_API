@@ -62,8 +62,8 @@ class UpdateAFD extends Command
             \Zipper::make(base_path('storage/app/public/charts/AFD/AIRAC_'.$airac.'/'.'DCS_20'.$airac.'.zip'))->extractTo(base_path('public/charts/AFD/AIRAC_'.$airac));
 
             $client = new Client;
-            $base_pdf_path = Config::get('app.charts_url').'/AFD/AIRAC_'.$airac.'/2_single_page_PDFs/';
-            $afd = $client->request('GET', Config::get('app.charts_url').'/AFD/AIRAC_'.$airac.'/1_xml/afd_'.$next->day.$month.'20'.$next->year.'.xml');
+            $base_pdf_path = Config::get('app.charts_url').'/AFD/AIRAC_'.$airac.'/';
+            $afd = $client->request('GET', Config::get('app.charts_url').'/AFD/AIRAC_'.$airac.'/afd_'.$next->day.$month.'20'.$next->year.'.xml');
             $afd_db = new SimpleXMLElement($afd->getBody());
             DB::table('afd_next')->truncate();
 
