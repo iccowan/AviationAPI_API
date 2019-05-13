@@ -77,7 +77,7 @@ class ChartsController extends Controller
                                ->orWhere('chart_code', 'LAH')
                                ->orWhere('chart_code', 'HOT');
                          })->orderBy('chart_code', 'ASC')->get()->toArray();
-                         $dp = $all_charts1->where('chart_code', 'DP')->get()->toArray();
+                         $dp = $all_charts1->where('chart_code', 'DP')->orWhere('chart_code', 'DAU')->get()->toArray();
                          $star = $all_charts2->where('chart_code', 'STAR')->get()->toArray();
                          $capp = $all_charts3->where('chart_code', 'IAP')->orWhere('chart_code', 'CVFP')->orderBy('chart_code', 'ASC')->get()->toArray();
                          $data_a = [
@@ -99,7 +99,7 @@ class ChartsController extends Controller
                          })->orderBy('chart_code', 'ASC')->get()->toArray();
                      } elseif($group == 4) {
                          //DP only
-                         $data_a = $all_charts0->where('chart_code', 'DP')->get()->toArray();
+                         $data_a = $all_charts0->where('chart_code', 'DP')->orWhere('chart_code', 'DAU')->get()->toArray();
                      } elseif($group == 5) {
                          //STAR only
                          $data_a = $all_charts0->where('chart_code', 'STAR')->get()->toArray();
@@ -108,7 +108,7 @@ class ChartsController extends Controller
                          $data_a = $all_charts0->where('chart_code', 'IAP')->orWhere('chart_code', 'CVFP')->orderBy('chart_code', 'ASC')->get()->toArray();
                      } elseif($group == 7) {
                          //Groups by DP, STAR, CAPP only
-                         $dp = $all_charts0->where('chart_code', 'DP')->get()->toArray();
+                         $dp = $all_charts0->where('chart_code', 'DP')->orWhere('chart_code', 'DAU')->get()->toArray();
                          $star = $all_charts1->where('chart_code', 'STAR')->get()->toArray();
                          $capp = $all_charts2->where('chart_code', 'IAP')->orWhere('chart_code', 'CVFP')->orderBy('chart_code', 'ASC')->get()->toArray();
                          $data_a = [
