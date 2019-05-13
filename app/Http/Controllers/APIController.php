@@ -20,7 +20,7 @@ use Illuminate\Http\Request;
           <br><br>
           No authentication is required and the API is open to anyone and everyone. If you are looking for the website for AviationAPI, that can be found at https://www.aviationapi.com.
           <br><br>
-          Lastly, AviationAPI will always be free and available to everyone. Hosting an API is not free and all donations of any amount are always welcome at https://www.aviationapi.com/donate.
+          Lastly, AviationAPI will always be free and available to everyone. Hosting an API is not free and all donations of any amount are always welcome at https://www.aviationapi.com/about.
           <br><br>
           Enjoy!",
 *         x={
