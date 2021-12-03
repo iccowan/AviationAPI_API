@@ -99,7 +99,7 @@ class UpdateFAACharts extends Command
                         $military = $c->attributes()->military;
                         $faa_ident = $c->attributes()->apt_ident;
                         $icao_ident = $c->attributes()->icao_ident;
-                        if($icao_ident == null) {
+                        if(! isset($icao_ident) || $icao_ident == null || strlen($icao_ident) < 4) {
                             $icao_ident = 'K'.$faa_ident;
                         }
                         foreach($c->record as $d) {
